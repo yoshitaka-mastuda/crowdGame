@@ -1,0 +1,17 @@
+<h1>TweetInsert#create</h1>
+<p>Find me in app/views/tweet_insert/create.html.erb</p>
+
+<div class="panel panel-default devise-bs">
+  <div class="panel-heading">
+    <h4><%= t('.tweet_insert', default: 'ツイートの入力') %></h4>
+  </div>
+  <div class="panel-body">
+    <%= form_for(@tweet, :url => {:action => :create}, :html => {method: :post}) do |f| %>
+        <div class="form-group">
+          <%= f.label :tweet_id %>
+          <%= f.text_field :tweet_id, autofocus: true, class: 'form-control' %>
+        </div>
+        <%= f.submit t('.tweet_insert', default: '入力'), class: 'btn btn-primary'%>
+    <% end %>
+  </div>
+</div>

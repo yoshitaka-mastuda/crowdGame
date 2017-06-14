@@ -1,0 +1,18 @@
+<p>こちらのツイートを投稿しますか?</p>
+<blockquote class="twitter-tweet" data-lang="ja" data-dnt="true" data-chrome="nofooter noborders">
+  <%= link_to '', @url %>
+</blockquote>
+<br>
+
+<%= form_tag :action => :store do %>
+    <%= hidden_field_tag 'tweet[text]', @status.text %>
+    <%= hidden_field_tag 'tweet[tweet_id]', @status.id.to_i %>
+    <%= hidden_field_tag 'user[twitter_user_id]', @status.user.id.to_i %>
+    <%= hidden_field_tag 'user[name]', @status.user.name %>
+    <%= hidden_field_tag 'user[screen_name]',  @status.user.screen_name %>
+
+    <%= submit_tag 'はい', :class => 'btn btn-primary' %>
+    <%= submit_tag 'いいえ', :class => 'btn btn-danger' %>
+<% end %>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

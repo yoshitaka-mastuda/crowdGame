@@ -10,11 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170607031851) do
+ActiveRecord::Schema.define(version: 20170608051203) do
 
   create_table "tweets", force: :cascade do |t|
     t.text "text"
     t.integer "tweet_id", precision: 38
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", precision: 38
+    t.integer "twitter_user_id", precision: 38
+    t.index ["tweet_id"], name: "index_tweets_on_tweet_id", unique: true
+  end
+
+  create_table "twitter_users", force: :cascade do |t|
+    t.string "name"
+    t.integer "twitter_user_id", precision: 38
+    t.string "screen_name"
+    t.string "location"
+    t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -38,3 +51,4 @@ ActiveRecord::Schema.define(version: 20170607031851) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+end
