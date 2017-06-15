@@ -4,9 +4,11 @@
 </blockquote>
 <br>
 
+
 <%= form_tag :action => :store do %>
     <%= hidden_field_tag 'tweet[text]', @status.text %>
     <%= hidden_field_tag 'tweet[tweet_id]', @status.id.to_i %>
+    <%= hidden_field_tag 'tweet[created_at]', @status.created_at %>
     <%= hidden_field_tag 'user[twitter_user_id]', @status.user.id.to_i %>
     <%= hidden_field_tag 'user[name]', @status.user.name %>
     <%= hidden_field_tag 'user[screen_name]',  @status.user.screen_name %>

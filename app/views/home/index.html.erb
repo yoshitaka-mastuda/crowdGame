@@ -1,24 +1,15 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<ul>
+  <li><%= link_to '新しいツイートを見つける', tweet_insert_index_path %></li>
+  <li><%= link_to '他のツイートを評価する', evaluation_index_path %></li>
+</ul>
 
 
 
-<ol>
 <% @tweets.each do |t| %>
-    <li><%= t %></li>
+    <blockquote class="twitter-tweet" data-lang="ja" data-dnt="true" data-chrome="nofooter noborders">
+      <a href=<%= t.url %>></a>
+    </blockquote>
 <% end %>
-</ol>
 
-<blockquote class="twitter-tweet" data-lang="ja" data-dnt="true" data-chrome="nofooter noborders">
-  <a href="https://twitter.com/higepiero1/status/870884544152428545"></a>
-</blockquote>
-
-<blockquote class="twitter-tweet" data-lang="ja" data-dnt="true" data-chrome="nofooter noborders">
-  <a href="https://twitter.com/petit_flare/status/872048205642555398"></a>
-</blockquote>
-
-<blockquote class="twitter-tweet" data-lang="ja" data-dnt="true" data-chrome="nofooter noborders">
-  <a href="https://twitter.com/Naikaken/status/871361711877496832"></a>
-</blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 

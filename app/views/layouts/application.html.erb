@@ -20,7 +20,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"><%= Rails.application.class.to_s.split('::').first %></a>
+        <%= link_to Rails.application.class.to_s.split('::').first, root_path, class: 'navbar-brand' %>
       </div>
       <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
         <ul class="nav navbar-nav navbar-right">
@@ -30,8 +30,8 @@
                   <%= current_user.username %> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">設定メニュー1</a></li>
-                  <li><a href="#">設定メニュー2</a></li>
+                  <li><%= link_to '他作業の評価', evaluation_index_path %></li>
+                  <li><%= link_to 'Tweet収集', tweet_insert_index_path %></li>
                   <li role="separator" class="divider"></li>
                   <li>
                     <a data-method="delete" href="/users/sign_out" rel="nofollow" data-toggle="tooltip" data-placement="bottom">
@@ -61,6 +61,19 @@
         <button type="button" class="close" data-dismiss="alert">×</button>
         <p><%= alert %></p>
       </div>
+  <% end %>
+
+  <% if user_signed_in? %>
+  <div class="row">
+    <div class="pull-right">
+      <button type="button" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= current_user.confirm_count %>ポイント
+      </button>
+      <button type="button" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <%= current_user.pending_count %>件審査中
+      </button>
+    </div>
+  </div>
   <% end %>
 
   <%= yield %>

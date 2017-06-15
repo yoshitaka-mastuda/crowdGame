@@ -1,0 +1,27 @@
+<h1><%= @user.username %></h1>
+<div class="row">
+  <ul>
+    <li>投稿数: <%= @user.tweet_count %></li>
+    <li>Accept: <%= @user.confirm_count %></li>
+    <li>Pending: <%= @user.pending_count %></li>
+    <li>Reject: <%= @user.reject_count %></li>
+  </ul>
+</div>
+<div class="row">
+  <table class="table table-bordered table-responsive">
+    <tr>
+      <th>Post</th>
+      <th><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>Accept</th>
+      <th><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>Reject</th>
+      <th><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Votes</th>
+    </tr>
+    <% @user.tweets.each do |t| %>
+        <tr>
+          <td><%= t.text %></td>
+          <td><%= t.accept_count %></td>
+          <td><%= t.reject_count %></td>
+          <td><%= t.votes_count %></td>
+        </tr>
+    <% end %>
+  </table>
+</div>

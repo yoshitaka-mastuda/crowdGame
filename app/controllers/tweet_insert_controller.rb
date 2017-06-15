@@ -20,7 +20,7 @@ class TweetInsertController < ApplicationController
       id = ids[ids.size - 1]
     end
 
-    render :duplicate if Tweet.where(tweet_id: id).count > 0
+    redirect_to new_tweet_insert_path, :alert => 'そのツイートは既に登録済みです'  if Tweet.where(tweet_id: id).count > 0
 
     client = Twitter::REST::Client.new do |c|
       c.consumer_key = 'sH5GApBCzDxAwPUJpiVoZpBqg'
@@ -53,9 +53,17 @@ class TweetInsertController < ApplicationController
     tweet.tweet_id = params[:tweet][:tweet_id]
     tweet.twitter_user_id = params[:user][:twitter_user_id]
     tweet.user_id = current_user.id
+    tweet.created_at = params[:tweet][:created_at]
 
     user.save if TwitterUser.find_by_twitter_user_id(user.twitter_user_id).nil?
     tweet.save if Tweet.find_by_tweet_id(tweet.tweet_id).nil?
+
+    current_user.tweet_count = Tweet.where(:user_id => current_user.id).count
+    current_user.confirm_count = Tweet.where(:user_id => current_user.id, :confirm => true).count
+    current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
+    current_user.save
+
+    redirect_to new_tweet_insert_path, notice: 'ツイートを投稿しました'
 
   end
 

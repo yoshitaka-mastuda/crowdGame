@@ -1,5 +1,6 @@
-<h1>TweetInsert#index</h1>
-<p>Find me in app/views/tweet_insert/index.html.erb</p>
-<% @tweets.each do |t| %>
-    <%= t.text %>
-<% end %>
+<h1>ツイートの収集</h1>
+
+<p>ここに，どのようなツイートを収集するのかについて書く</p>
+
+<%= link_to '収集開始', new_tweet_insert_path, class: 'btn btn-primary btn-lg' %>
+<%= link_to '戻る', root_path, class: 'btn btn-warning btn-lg' %>

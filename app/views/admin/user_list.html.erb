@@ -1,0 +1,19 @@
+<h1>User List</h1>
+<table class="table table-bordered table-responsive">
+  <tr>
+    <th>UserName</th>
+    <th>Post</th>
+    <th><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></th>
+    <th><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></th>
+    <th><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span></th>
+  </tr>
+  <% @users.each do |u| %>
+  <tr>
+    <td><%= link_to u.username, {:controller => 'admin', :action => 'user_show', :user_id => u.id} %></td>
+    <td><%= u.tweet_count %></td>
+    <td><%= u.confirm_count %></td>
+    <td><%= u.reject_count %></td>
+    <td><%= u.pending_count %></td>
+  </tr>
+  <% end %>
+</table>
