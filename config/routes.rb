@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'evaluation/new'
 
   get 'user_behavior/click'
+  post 'evaluation/create'
 
   resources :tweet_insert
 
