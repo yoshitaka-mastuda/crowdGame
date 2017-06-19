@@ -1,6 +1,12 @@
+
 <ul>
-  <li><%= link_to '新しいツイートを見つける', tweet_insert_index_path %></li>
-  <li><%= link_to '他のツイートを評価する', evaluation_index_path %></li>
+  <% if user_signed_in? %>
+      <li><%= link_to '新しいツイートを見つける', tweet_insert_index_path %></li>
+      <li><%= link_to '他のツイートを評価する', evaluation_index_path %></li>
+  <% else %>
+  <li><%= link_to 'ログイン', new_user_session_path %></li>
+  <li><%= link_to '新規登録', new_user_registration_path %></li>
+  <% end %>
 </ul>
 
 
