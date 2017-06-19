@@ -10,36 +10,58 @@
 </blockquote>
 </span>
 
+<p>このツイートは京都観光に関係ありますか?</p>
+<%= form_tag evaluation_create_path do %>
+    <%= hidden_field_tag 'tweet[tweet_id]', @tweet.tweet_id %>
+    <%= submit_tag 'はい' %>
+    <%= submit_tag 'いいえ' %>
+<% end %>
+
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <script>
-    jQuery( function() {
-
+    jQuery(function () {
         jQuery('html').on({
-            'mouseup': function() {
+            'mouseup': function () {
                 event.preventDefault();
                 jQuery('span#tweet').hide();
-                jQuery.ajax({url:'/user_behavior/click', type: "GET", data:{tweet_id : <%= @tweet.tweet_id %>,state: 0}});
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:0,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
 
             },
-            'touchend': function() {
+            'touchend': function () {
                 event.preventDefault();
                 jQuery('span#tweet').hide();
-                jQuery.ajax({url:'/user_behavior/click', type: "GET", data:{tweet_id : <%= @tweet.tweet_id %>,state: 0}});
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:0,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
 
             }
         });
 
         jQuery('button').on({
-            'mousedown': function() {
+            'mousedown': function () {
                 event.preventDefault();
                 jQuery('span#tweet').show();
-                jQuery.ajax({url:'/user_behavior/click', type: "GET", data:{tweet_id : <%= @tweet.tweet_id %>,state: 1}});
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:1,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
 
             },
-            'touchstart': function() {
+            'touchstart': function () {
                 event.preventDefault();
                 jQuery('span#tweet').show();
-                jQuery.ajax({url:'/user_behavior/click', type: "GET", data:{tweet_id : <%= @tweet.tweet_id %>,state: 1}});
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:1,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
             }
         });
 
