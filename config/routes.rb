@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
+  get 'user_behavior/click'
+
   get 'evaluation/index'
   get 'evaluation/new'
+
+  get 'user_behavior/click'
 
   resources :tweet_insert
 

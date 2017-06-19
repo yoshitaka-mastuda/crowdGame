@@ -1,11 +1,48 @@
-<blockquote class="twitter-tweet" data-lang="ja">
-  <a href="https://twitter.com/masason/status/659730015811145728"></a>
-</blockquote>
-
 <div class="row">
   <div class="col-xs-12">
-    <button type="button" class="btn btn-primary btn-lg btn-block">ここを押してツイートを表示</button>
+    <button type="button" id="appear" class="btn btn-primary btn-lg btn-block">ここを押してツイートを表示</button>
   </div>
 </div>
 
+<span id="tweet" style="display: none;">
+<blockquote class="twitter-tweet" data-lang="ja">
+  <%= link_to '', @tweet.url %>
+</blockquote>
+</span>
+
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script>
+    jQuery( function() {
+
+        jQuery('html').on({
+            'mouseup': function() {
+                event.preventDefault();
+                jQuery('span#tweet').hide();
+                jQuery.ajax({url:'/user_behavior/click', type: "GET", data:{tweet_id : <%= @tweet.tweet_id %>,state: 0}});
+
+            },
+            'touchend': function() {
+                event.preventDefault();
+                jQuery('span#tweet').hide();
+                jQuery.ajax({url:'/user_behavior/click', type: "GET", data:{tweet_id : <%= @tweet.tweet_id %>,state: 0}});
+
+            }
+        });
+
+        jQuery('button').on({
+            'mousedown': function() {
+                event.preventDefault();
+                jQuery('span#tweet').show();
+                jQuery.ajax({url:'/user_behavior/click', type: "GET", data:{tweet_id : <%= @tweet.tweet_id %>,state: 1}});
+
+            },
+            'touchstart': function() {
+                event.preventDefault();
+                jQuery('span#tweet').show();
+                jQuery.ajax({url:'/user_behavior/click', type: "GET", data:{tweet_id : <%= @tweet.tweet_id %>,state: 1}});
+            }
+        });
+
+    });
+
+</script>

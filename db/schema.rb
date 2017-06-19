@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170614101405) do
+ActiveRecord::Schema.define(version: 20170619014430) do
+
+  create_table "clicks", force: :cascade do |t|
+    t.integer "user_id", precision: 38, null: false
+    t.integer "tweet_id", precision: 38, null: false
+    t.integer "state", precision: 38, null: false
+    t.integer "vote_id", precision: 38
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "tweet_id"], name: "i_clicks_user_id_tweet_id"
+    t.index ["vote_id"], name: "index_clicks_on_vote_id"
+  end
 
   create_table "tweets", force: :cascade do |t|
     t.text "text"
@@ -59,6 +70,17 @@ ActiveRecord::Schema.define(version: 20170614101405) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "i_users_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.integer "user_id", precision: 38
+    t.integer "tweet_id", precision: 38
+    t.integer "evaluation", precision: 38
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tweet_id"], name: "index_votes_on_tweet_id"
+    t.index ["user_id", "tweet_id"], name: "i_votes_user_id_tweet_id", unique: true
+    t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
 end
