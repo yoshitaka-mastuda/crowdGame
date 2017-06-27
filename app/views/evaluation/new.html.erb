@@ -1,5 +1,9 @@
+<body>
+<font size="4">
+
 <div class="row">
   <div class="col-xs-12">
+    <br><br>
     <button type="button" id="appear" class="btn btn-primary btn-lg btn-block">ここを押してツイートを表示</button>
   </div>
 </div>
@@ -10,16 +14,101 @@
 </blockquote>
 </span>
 
-<p>このツイートは京都観光に関係ありますか?</p>
 <%= form_tag evaluation_create_path do %>
     <%= hidden_field_tag 'tweet[tweet_id]', @tweet.tweet_id %>
-    <%= submit_tag 'はい' %>
-    <%= submit_tag 'いいえ' %>
+      <br><br>
+      <p>Q1：このツイートは京都観光に関係ありますか?</p>
+      <span id="check_q1">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="q1click_yes"><input type="radio" name="evaluation" value="1">はい</span>
+        &nbsp;&nbsp;&nbsp;
+        <span id="q1click_no"><input type="radio" name="evaluation" value="0">いいえ</span>
+      </span>
+      <br><br>
+      <p>Q2：Q1で いいえ を選んだ理由はなんですか?（Q1で いいえ を選んだ場合は必須）</p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span id="q2"><span id="q2_keypress"><textarea id="check_q2" name="messega" rows="5" cols="50"></textarea></span></span>
+      <br><br>
+      <p>Q3：ツイートのジャンルはなんですか?</p>
+      <div id='check_q3'>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input id="q3click_weather" type="checkbox" name="category" value="0">天気
+      &nbsp;&nbsp;&nbsp;
+      <input id="q3click_other" type="checkbox" name="category" value="1">その他
+      </div>
+      <br><br>
+      <p><input type="submit" id="submit_button" class="btn btn-primary btn-lg"></p>
+
+
 <% end %>
+</font>
+</body>
 
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <script>
     jQuery(function () {
+
+        var q1_check = "0"
+        var q2_check = "0"
+        var q3_check = "0"
+        jQuery('#check_q1').on({
+            'click': function () {
+                q1_check = "1"
+                if(jQuery('input[name=evaluation]:checked').val()=="1"){
+                    q2_check = "1"
+                }
+            }
+        });
+        jQuery('#check_q2').on({
+            'change': function () {
+                if (jQuery(this).val().length > 0) {
+                    q2_check = "1"
+                }else{
+                    q2_check = "0"
+                }
+            }
+        });
+        jQuery('#check_q3').on({
+            'change': function () {
+                if (jQuery("#check_q3 :checkbox:checked").length > 0) {
+                    q3_check = "1"
+                }else{
+                    q3_check = "0"
+                }
+            }
+        });
+        jQuery('body').on({
+            'mousemove': function () {
+                if(q1_check == "1" && q2_check == "1" && q3_check == "1"){
+                    jQuery("#submit_button").prop("disabled", false);
+                }else{
+                    jQuery("#submit_button").prop("disabled", true);
+                }
+            }
+        });
+
+
+
+
+        function timer_func(){
+            jQuery.ajax({
+                url: '<%= user_behavior_click_url %>',
+                type: "GET",
+                data: {state:15,tweet_id:'<%= @tweet.tweet_id %>'}
+            });
+            jQuery('html').one({
+                'mousemove': function() {
+                    jQuery.ajax({
+                        url: '<%= user_behavior_click_url %>',
+                        type: "GET",
+                        data: {state:16,tweet_id:'<%= @tweet.tweet_id %>'}
+                    });
+                }
+            });
+        }
+        var time_limit=60*1000; //制限時間60sec
+        var timer_id=setTimeout(timer_func, time_limit);
+
         jQuery('html').on({
             'mouseup': function () {
                 event.preventDefault();
@@ -39,11 +128,14 @@
                     type: "GET",
                     data: {state:0,tweet_id:'<%= @tweet.tweet_id %>'}
                 });
-
+            },
+            'mousemove': function() {
+                clearTimeout(timer_id);
+                timer_id=setTimeout(timer_func, time_limit);
             }
         });
 
-        jQuery('button').on({
+        jQuery('#appear').on({
             'mousedown': function () {
                 event.preventDefault();
                 jQuery('span#tweet').show();
@@ -63,6 +155,140 @@
                     data: {state:1,tweet_id:'<%= @tweet.tweet_id %>'}
                 });
             }
+        });
+
+        jQuery('#q1click_yes').on({
+            'click': function () {
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:2,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+            },
+            'tap': function () {
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:3,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+            }
+        });
+
+        jQuery('#q1click_no').on({
+            'click': function () {
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:4,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+            },
+            'tap': function () {
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:5,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+            }
+        });
+
+        jQuery('#q3click_weather').on({
+            'click': function () {
+                if(jQuery(this).is(':checked')){
+                    val = "106"
+                }else{
+                    val = "107"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:val,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+
+            },
+            'tap': function () {
+                if(jQuery(this).is(':checked')){
+                    val = "108"
+                }else{
+                    val = "109"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:val,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+            }
+        });
+
+        jQuery('#q3click_other').on({
+            'click': function () {
+                if(jQuery(this).is(':checked')){
+                    val = "110"
+                }else{
+                    val = "111"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:val,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+
+            },
+            'tap': function () {
+                if(jQuery(this).is(':checked')){
+                    val = "112"
+                }else{
+                    val = "113"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:val,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+            }
+        });
+
+        jQuery('#q2').on({
+            'focusin': function () {
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:10,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+
+            },
+            'focusout': function () {
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:11,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+            },
+            'paste': function () {
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:12,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+            }
+        });
+
+        jQuery('#q2_keypress').one({
+            'keydown': function () {
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state:13,tweet_id:'<%= @tweet.tweet_id %>'}
+                });
+
+            }
+        });
+
+        $(window).on('load', function() {
+            jQuery.ajax({
+                url: '<%= user_behavior_click_url %>',
+                type: "GET",
+                data: {state:14,tweet_id:'<%= @tweet.tweet_id %>'}
+            });
         });
 
     });
