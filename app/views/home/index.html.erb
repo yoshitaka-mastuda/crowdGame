@@ -1,21 +1,16 @@
-
-<ul>
+<div style="font-size:130%;">
   <% if user_signed_in? %>
-      <li><%= link_to '新しいツイートを見つける', tweet_insert_index_path %></li>
-      <li><%= link_to '他のツイートを評価する', evaluation_index_path %></li>
+      <br><p>作業を選んでください</p>
+      &emsp;
+      <%= link_to '新しいツイートを見つける', tweet_insert_index_path, class: 'btn btn-primary btn-lg'%><p></p><p></p>
+      &emsp;
+      <%= link_to '他のツイートを評価する', evaluation_index_path, class: 'btn btn-warning btn-lg' %>
+
+      <br><br><br>
+      <p>ポイントと審査中の説明書く？</p>
   <% else %>
-  <li><%= link_to 'ログイン', new_user_session_path %></li>
-  <li><%= link_to '新規登録', new_user_registration_path %></li>
+      <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary btn-lg'%><p></p><p></p>
+      <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-warning btn-lg' %>
   <% end %>
-</ul>
+</div>
 
-
-<!--
-<% @tweets.each do |t| %>
-    <blockquote class="twitter-tweet" data-lang="ja" data-dnt="true" data-chrome="nofooter noborders">
-      <a href=<%= t.url %>></a>
-    </blockquote>
-<% end %>
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
--->

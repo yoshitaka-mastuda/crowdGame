@@ -1,0 +1,2 @@
+module VoteCategoriesHelper
+end

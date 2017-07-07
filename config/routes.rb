@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :doing_lists
+  resources :vote_categories
+  resources :categories
+  resources :behaviors
+  resources :states
   get 'user_behavior/click'
 
   get 'evaluation/index'

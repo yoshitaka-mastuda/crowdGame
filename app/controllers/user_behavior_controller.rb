@@ -1,6 +1,6 @@
 class UserBehaviorController < ApplicationController
   def click
-    Click.create(user_id: current_user.id, tweet_id: params[:tweet_id].to_i, state: params[:state].to_i)
+    session[:behavior].push([params[:state].to_i, Time.now])
     render json: ''
   end
 end

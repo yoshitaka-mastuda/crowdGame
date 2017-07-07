@@ -1,0 +1,27 @@
+<%= form_with(model: state, local: true) do |form| %>
+  <% if state.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(state.errors.count, "error") %> prohibited this state from being saved:</h2>
+
+      <ul>
+      <% state.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :state_id %>
+    <%= form.number_field :state_id, id: :state_state_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :state_name %>
+    <%= form.text_area :state_name, id: :state_state_name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

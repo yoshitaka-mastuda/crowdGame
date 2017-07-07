@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @doing_list.user_id %>
+</p>
+
+<p>
+  <strong>Tweet:</strong>
+  <%= @doing_list.tweet_id %>
+</p>
+
+<%= link_to 'Edit', edit_doing_list_path(@doing_list) %> |
+<%= link_to 'Back', doing_lists_path %>

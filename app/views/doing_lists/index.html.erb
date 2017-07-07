@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Doing Lists</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Tweet</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @doing_lists.each do |doing_list| %>
+      <tr>
+        <td><%= doing_list.user_id %></td>
+        <td><%= doing_list.tweet_id %></td>
+        <td><%= link_to 'Show', doing_list %></td>
+        <td><%= link_to 'Edit', edit_doing_list_path(doing_list) %></td>
+        <td><%= link_to 'Destroy', doing_list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Doing List', new_doing_list_path %>

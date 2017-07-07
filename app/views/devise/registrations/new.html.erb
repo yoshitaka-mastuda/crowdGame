@@ -10,18 +10,71 @@
           <%= f.text_field :username, autofocus: true, class: 'form-control' %>
         </div>
         <div class="form-group">
-        <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, class: 'form-control' %>
-      </div>
-      <div class="form-group">
-        <%= f.label :password %>
-        <%= f.password_field :password, class: 'form-control' %>
-      </div>
-      <div class="form-group">
-        <%= f.label :password_confirmation %>
-        <%= f.password_field :password_confirmation, class: 'form-control' %>
-      </div>
-      <%= f.submit t('.sign_up', default: 'Sign up'), class: 'btn btn-primary' %>
+          <%= f.label :email %>
+          <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :password %>
+          <%= f.password_field :password, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :性別 %><br>
+          <label><%= f.radio_button :sex, '男性' %>&nbsp;男性</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :sex, '女性' %>&nbsp;女性</label>
+        </div>
+        <div class="form-group">
+          <%= f.label :年齢 %><br>
+          <label><%= f.radio_button :age, '10代' %>&nbsp;10代</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :age, '20代' %>&nbsp;20代</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :age, '30代' %>&nbsp;30代</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :age, '40代' %>&nbsp;40代</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :age, '50代' %>&nbsp;50代</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :age, '60代以上' %>&nbsp;60代以上</label>
+        </div>
+        <div class="form-group">
+          <%= f.label :居住地 %><br>
+          <label><%= f.radio_button :residence, '北海道' %>&nbsp;北海道</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :residence, '東北' %>&nbsp;東北</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :residence, '関東' %>&nbsp;関東</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :residence, '中部' %>&nbsp;中部</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :residence, '近畿' %>&nbsp;近畿</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :residence, '中国' %>&nbsp;中国</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :residence, '四国' %>&nbsp;四国</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :residence, '九州' %>&nbsp;九州</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :residence, 'その他' %>&nbsp;その他</label>
+        </div>
+        <div class="form-group">
+          <%= f.label :職業 %><br>
+          <label><%= f.radio_button :job, '会社員' %>&nbsp;会社員</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :job, '自営業' %>&nbsp;自営業</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :job, '公務員' %>&nbsp;公務員</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :job, '主婦' %>&nbsp;主婦</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :job, 'パート・アルバイト' %>&nbsp;パート・アルバイト</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :job, 'クラウドワーカー' %>&nbsp;クラウドワーカー</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :job, '学生' %>&nbsp;学生</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :job, '無職' %>&nbsp;無職</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :job, 'その他' %>&nbsp;その他</label>
+        </div>
+        <div class="form-group">
+          <%= f.label :作業環境 %><br>
+          <label><%= f.radio_button :devise, 'パソコン' %>&nbsp;パソコン</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :devise, 'タブレット' %>&nbsp;タブレット</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :devise, 'スマートフォン' %>&nbsp;スマートフォン</label>
+        </div>
+        <div class="form-group">
+          <%= f.label :ブラウザ %><br>
+          <label><%= f.radio_button :browser, 'Internet Explorer' %>&nbsp;Internet Explorer</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :browser, 'Google Chrome' %>&nbsp;Google Chrome</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :browser, 'Mozilla Firefox' %>&nbsp;Mozilla Firefox</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :browser, 'Safari' %>&nbsp;Safari</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :browser, 'その他' %>&nbsp;その他</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><%= f.radio_button :browser, '分からない' %>&nbsp;分からない</label>
+        </div>
+        <%= f.submit t('.sign_up', default: 'Sign up'), class: 'btn btn-primary' %>
     <% end %>
   </div>
 </div>

@@ -1,0 +1,2 @@
+class VoteCategory < ApplicationRecord
+end

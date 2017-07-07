@@ -20,7 +20,7 @@ class TweetInsertController < ApplicationController
       id = ids[ids.size - 1]
     end
 
-    redirect_to new_tweet_insert_path, :alert => 'そのツイートは既に登録済みです'  if Tweet.where(tweet_id: id).count > 0
+    redirect_to new_tweet_insert_path, :alert => 'そのツイートは既に登録済みです。'  if Tweet.where(tweet_id: id).count > 0
 
     client = Twitter::REST::Client.new do |c|
       c.consumer_key = 'sH5GApBCzDxAwPUJpiVoZpBqg'
@@ -33,10 +33,21 @@ class TweetInsertController < ApplicationController
       @status = client.status(id)
       @url = "https://twitter.com/#{@status.user.screen_name}/status/#{id}"
     rescue Twitter::Error => e
-      render :error
+      #render :error
+      redirect_to new_tweet_insert_path, :alert => 'ツイートを見つけることができませんでした。他のツイートを探してください。'
     end
 
-
+=begin
+    max_id = nil
+    loop do
+      result = client.search('選挙', count: 2, lang: 'ja', locale: 'ja', result_type: 'recent', since_id: max_id)
+      max_id = result.attrs[:search_metadata][:max_id]
+      result.take(2).reverse.each do |status|
+        puts "#{status.created_at}: #{status.user.screen_name}: #{status.text}"
+      end
+      sleep 5
+    end
+=end
 
   end
 
@@ -61,9 +72,10 @@ class TweetInsertController < ApplicationController
     current_user.tweet_count = Tweet.where(:user_id => current_user.id).count
     current_user.confirm_count = Tweet.where(:user_id => current_user.id, :confirm => true).count
     current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
+    current_user.total_count = current_user.confirm_count + current_user.evaluation_count
     current_user.save
 
-    redirect_to new_tweet_insert_path, notice: 'ツイートを投稿しました'
+    redirect_to new_tweet_insert_path, notice: 'ツイートを登録しました。'
 
   end
 
