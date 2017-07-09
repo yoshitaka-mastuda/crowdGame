@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170705082301) do
+ActiveRecord::Schema.define(version: 20170709144148) do
 
   create_table "behaviors", force: :cascade do |t|
     t.integer "user_id", precision: 38
@@ -60,12 +60,14 @@ ActiveRecord::Schema.define(version: 20170705082301) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", precision: 38
     t.integer "twitter_user_id", precision: 38
-    t.boolean "confirm", default: false
     t.boolean "pending", default: true
     t.integer "reject_count", precision: 38, default: 0
     t.integer "accept_count", precision: 38, default: 0
     t.integer "votes_count", precision: 38, default: 0
-    t.index ["confirm", "user_id"], name: "i_tweets_confirm_user_id"
+    t.integer "auto_flag", precision: 38
+    t.integer "notice_flag", precision: 38, default: 0
+    t.boolean "accept", default: false
+    t.boolean "reject", default: false
     t.index ["tweet_id"], name: "index_tweets_on_tweet_id", unique: true
   end
 
@@ -94,7 +96,7 @@ ActiveRecord::Schema.define(version: 20170705082301) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "admin", default: false
-    t.integer "confirm_count", precision: 38, default: 0
+    t.integer "accept_count", precision: 38, default: 0
     t.integer "tweet_count", precision: 38, default: 0
     t.integer "pending_count", precision: 38, default: 0
     t.integer "evaluation_count", precision: 38, default: 0
@@ -105,6 +107,7 @@ ActiveRecord::Schema.define(version: 20170705082301) do
     t.string "job"
     t.string "browser"
     t.string "devise"
+    t.integer "payment", precision: 38, default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "i_users_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true

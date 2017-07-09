@@ -10,6 +10,14 @@ class AdminController < ApplicationController
 
   def user_show
     @user = User.find(params[:user_id])
+    @accept = Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id WHERE v.user_id = :user AND v.evaluation = 1', {user: params[:user_id]}])
+    @reject = Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id WHERE v.user_id = :user AND v.evaluation = 0', {user: params[:user_id]}])
+  end
+
+  def pay
+    @user = User.find(params[:user])
+    @user.payment = params[:pay]
+    @user.save
   end
 
   private

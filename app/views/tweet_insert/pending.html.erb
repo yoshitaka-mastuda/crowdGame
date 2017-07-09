@@ -1,0 +1,29 @@
+<br><br>
+
+<%= link_to '戻る', home_index_path %>
+<br><br>
+
+<h1>審査中ツイートの一覧</h1>
+
+<table class="table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th>あなたが投稿したツイート</th>
+    <th>適切</th>
+    <th>不適切</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @pending_tweets.each do |a_t| %>
+      <tr>
+        <td><%= a_t.text %></td>
+        <td><%= a_t.accept_count %></td>
+        <td><%= a_t.reject_count %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+

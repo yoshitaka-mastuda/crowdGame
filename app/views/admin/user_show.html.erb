@@ -1,19 +1,29 @@
+<br>
+<%= link_to '戻る', admin_user_list_path %>
+
 <h1><%= @user.username %></h1>
 <div class="row">
   <ul>
-    <li>投稿数: <%= @user.tweet_count %></li>
-    <li>Accept: <%= @user.confirm_count %></li>
-    <li>Pending: <%= @user.pending_count %></li>
-    <li>Reject: <%= @user.reject_count %></li>
+    <li>収集ツイート数: <%= @user.tweet_count %></li>
+    <li>承認ツイート数: <%= @user.accept_count %></li>
+    <li>非承認ツイート数: <%= @user.reject_count %></li>
+    <li>審査中ツイート数: <%= @user.pending_count %></li>
+    <li>評価ツイート数: <%= @user.evaluation_count %></li><br>
+    <li>収集ポイント: <%= @user.accept_point %></li>
+    <li>評価ポイント: <%= @user.evaluation_point %></li>
+    <li>合計ポイント: <%= @user.total_point %></li>
+    <li>支払ポイント: <input id='pay' type="number" name="example2" value=<%= @user.payment %>></li>
+    <li>未払ポイント: <%= @user.rest_point %></li>
   </ul>
 </div>
 <div class="row">
-  <table class="table table-bordered table-responsive">
+  <h3>収集ツイート</h3>
+  <table class="table table-bordered table-responsive table-striped">
     <tr>
-      <th>Post</th>
-      <th><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>Accept</th>
-      <th><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>Reject</th>
-      <th><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Votes</th>
+      <th>収集ツイート</th>
+      <th>適切数</th>
+      <th>不適切数</th>
+      <th>評価数</th>
     </tr>
     <% @user.tweets.each do |t| %>
         <tr>
@@ -24,4 +34,43 @@
         </tr>
     <% end %>
   </table>
+
+  <h3>評価ツイート（適切）</h3>
+  <table class="table table-bordered table-responsive table-striped">
+    <tr>
+      <th>収集ツイート</th>
+    </tr>
+    <% @accept.each do |t| %>
+        <tr>
+          <td><%= t.text %></td>
+        </tr>
+    <% end %>
+  </table>
+
+  <h3>評価ツイート（不適切）</h3>
+  <table class="table table-bordered table-responsive table-striped">
+    <tr>
+      <th>評価ツイート</th>
+    </tr>
+    <% @reject.each do |t| %>
+        <tr>
+          <td><%= t.text %></td>
+        </tr>
+    <% end %>
+  </table>
 </div>
+
+
+<script>
+    jQuery(function () {
+        jQuery('#pay').on({
+            'change': function () {
+                jQuery.ajax({
+                    url: '/admin/pay',
+                    type: "GET",
+                    data: {pay:$(this).val(), user:<%= @user.id %>}
+                });
+            }
+        });
+    });
+</script>

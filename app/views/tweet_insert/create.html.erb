@@ -1,4 +1,4 @@
-<p>こちらのツイートを投稿しますか?</p>
+<br><br><br><p style="font-size:14pt;">こちらのツイートを投稿しますか?</p>
 <blockquote class="twitter-tweet" data-lang="ja" data-dnt="true" data-chrome="nofooter noborders">
   <%= link_to '', @url %>
 </blockquote>
@@ -13,8 +13,8 @@
     <%= hidden_field_tag 'user[name]', @status.user.name %>
     <%= hidden_field_tag 'user[screen_name]',  @status.user.screen_name %>
 
-    <%= submit_tag 'はい', :class => 'btn btn-primary' %>
-    <%= submit_tag 'いいえ', :class => 'btn btn-danger' %>
+    <%= submit_tag 'はい', :class => 'btn btn-primary btn-lg' %>
+    <%= submit_tag 'いいえ', :class => 'btn btn-danger btn-lg' %>
 <% end %>
 
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

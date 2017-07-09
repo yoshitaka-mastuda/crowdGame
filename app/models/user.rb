@@ -15,8 +15,26 @@ class User < ApplicationRecord
   end
 
   def reject_count
-    self.tweet_count - self.confirm_count - self.pending_count
+    self.tweet_count - self.accept_count - self.pending_count
   end
+
+  def accept_point
+    self.accept_count * 10
+  end
+
+  def evaluation_point
+    self.evaluation_count
+  end
+
+  def total_point
+    self.accept_point + self.evaluation_point
+  end
+
+  def rest_point
+    self.total_point - self.payment
+  end
+
+
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup

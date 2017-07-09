@@ -12,8 +12,13 @@ Rails.application.routes.draw do
   get 'user_behavior/click'
   post 'evaluation/create'
 
+  get 'tweet_insert/confirm'
+  get 'tweet_insert/pending'
+  get 'tweet_insert/reason'
+
   resources :tweet_insert
 
+  get 'admin/pay'
   get 'admin/user_list', to: 'admin#user_list'
   get 'admin/user_show', to: 'admin#user_show'
 
