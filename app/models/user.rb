@@ -19,7 +19,7 @@ class User < ApplicationRecord
   end
 
   def accept_point
-    self.accept_count * 10
+    self.accept_count * 5
   end
 
   def evaluation_point
@@ -34,6 +34,13 @@ class User < ApplicationRecord
     self.total_point - self.payment
   end
 
+  def insert_rate
+    if (self.accept_count + self.reject_count) != 0 then
+      self.accept_count/(self.accept_count + self.reject_count)*100
+    else
+      0
+    end
+  end
 
 
   def self.find_for_database_authentication(warden_conditions)

@@ -2,6 +2,10 @@ require 'twitter'
 
 class TweetInsertController < ApplicationController
   def index
+  end
+
+  def new
+    @tweet = Tweet.new
     current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
     current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
     current_user.total_count = current_user.accept_count + current_user.evaluation_count
@@ -19,10 +23,6 @@ class TweetInsertController < ApplicationController
       t.notice_flag=1
       t.save
     end
-  end
-
-  def new
-    @tweet = Tweet.new
   end
 
   def show

@@ -32,12 +32,14 @@
                 <ul class="dropdown-menu">
                   <li><%= link_to '他作業の評価', evaluation_index_path %></li>
                   <li><%= link_to 'ツイート収集', tweet_insert_index_path %></li>
+                  <!--
                   <li role="separator" class="divider"></li>
                   <li>
                     <a data-method="delete" href="/users/sign_out" rel="nofollow" data-toggle="tooltip" data-placement="bottom">
                       <i class="fa fa-sign-out" aria-hidden="true"></i>ログアウト
                     </a>
                   </li>
+                  -->
                 </ul>
               </li>
           <% end %>
@@ -64,29 +66,35 @@
   <% end %>
 
   <% if user_signed_in? %>
-  <div class="row">
-    <div class="pull-right">
-      <%= link_to tweet_insert_pending_path do %>
-        <span style="font-size:12pt;" class="alert alert-danger">
-          審査中:<%= current_user.pending_count %>
-        </span>
-      <% end %>&nbsp;
-      <%= link_to tweet_insert_confirm_path do %>
-        <span id='confirm' style="font-size:12pt;" class="alert alert-success">
-          収集ポイント:<%= current_user.accept_point %>
-        </span>
-      <% end %>&nbsp;
-      <span style="font-size:12pt;" class="alert alert-info">
-        評価ポイント:<%= current_user.evaluation_point %>
-      </span>&nbsp;
-      <span style="font-size:12pt;" class="alert alert-warning">
-        合計ポイント:<%= current_user.total_point %>
-      </span>
-    </div>
-  </div>
+      <div Align="right">
+        <span>あなたのユーザ名: <%= current_user.username %></span><br>
+        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+      </div>
+      <br>
+      <div class="row">
+        <div class="pull-right">
+          <%= link_to tweet_insert_pending_path do %>
+              <span style="font-size:12pt;" class="alert alert-danger">
+                審査中:<%= current_user.pending_count %>
+              </span>
+          <% end %>&nbsp;
+          <%= link_to tweet_insert_confirm_path do %>
+              <span id='confirm' style="font-size:12pt;" class="alert alert-success">
+                収集ポイント:<%= current_user.accept_point %>
+              </span>
+          <% end %>&nbsp;
+          <br class="visible-xs-block"><br class="visible-xs-block"><br class="visible-xs-block">
+          <span style="font-size:12pt;" class="alert alert-info">
+                  評価ポイント:<%= current_user.evaluation_point %>
+                </span>&nbsp;
+          <span style="font-size:12pt;" class="alert alert-warning">
+                  合計ポイント:<%= current_user.total_point %>
+                </span>
+        </div>
+      </div>
   <% end %>
 
   <%= yield %>
-</div>
-</body>
+  </div>
+  </body>
 </html>

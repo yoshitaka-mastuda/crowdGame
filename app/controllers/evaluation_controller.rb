@@ -4,6 +4,22 @@ class EvaluationController < ApplicationController
   end
 
   def new
+    current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
+    current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
+    current_user.total_count = current_user.accept_count + current_user.evaluation_count
+    current_user.save
+    a_count = Tweet.where(user_id: current_user.id, accept: 1, notice_flag: 0).count
+    r_count = Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).count
+    Tweet.where(user_id: current_user.id, accept: 1, notice_flag: 0).each do |t|
+      flash.now[:notice] = "あなたが収集したツイート「#{t.text}」など#{a_count}件が承認されました。"
+      t.notice_flag=1
+      t.save
+    end
+    Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).each do |t|
+      flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」など#{r_count}件が拒否されました。"
+      t.notice_flag=1
+      t.save
+    end
     session[:behavior] = []
     session[:behavior].push([0, Time.now])
     if DoingList.where(user_id: current_user.id).length > 0 then
@@ -20,7 +36,7 @@ class EvaluationController < ApplicationController
         end
       end
     else
-      flash.now[:alert] = '評価できるツイートがありません。しばらく時間をおいてください。'
+      flash.now[:alert] = '評価できるツイートがありません。収集作業を行なってください。'
       render :index
     end
 

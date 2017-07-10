@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170709144148) do
+ActiveRecord::Schema.define(version: 20170710133042) do
 
   create_table "behaviors", force: :cascade do |t|
     t.integer "user_id", precision: 38
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 20170709144148) do
     t.string "browser"
     t.string "devise"
     t.integer "payment", precision: 38, default: 0
+    t.text "memo"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "i_users_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
