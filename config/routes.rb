@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :categories
   resources :behaviors
   resources :states
+
+  get '/users/sign_out' => 'devise/sessions#destroy'
+
   get 'user_behavior/click'
 
   get 'evaluation/index'
