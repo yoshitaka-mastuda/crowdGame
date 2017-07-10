@@ -2,6 +2,7 @@ require 'twitter'
 require "rubygems"
 require "active_record"
 require 'yaml'
+require 'date'
 
 config = YAML.load_file('../database.yml')
 ActiveRecord::Base.establish_connection(config["development"])
@@ -36,14 +37,19 @@ loop do
       tweet.twitter_user_id = s.user.id
       tweet.user_id = 99999
       tweet.auto_flag = 1
-      tweet.save if Tweet.find_by_tweet_id(tweet.tweet_id).nil?
-      puts "insert"
+      tweet.created_at = Time.now
+      tweet.updated_at = Time.now
+      puts "find"
+      if Tweet.find_by_tweet_id(tweet.tweet_id).nil? then
+        tweet.save if Tweet.find_by_tweet_id(tweet.tweet_id).nil?
+        puts "insert"
 
-      user = TwitterUser.new
-      user.twitter_user_id = s.user.id
-      user.screen_name = s.user.screen_name
-      user.name = s.user.name
-      user.save if TwitterUser.find_by_twitter_user_id(user.twitter_user_id).nil?
+        user = TwitterUser.new
+        user.twitter_user_id = s.user.id
+        user.screen_name = s.user.screen_name
+        user.name = s.user.name
+        user.save if TwitterUser.find_by_twitter_user_id(user.twitter_user_id).nil?
+      end
     end
   end
 
