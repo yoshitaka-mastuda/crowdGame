@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   resources :behaviors
   resources :states
 
+  devise_scope :user do
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
+
   get 'user_behavior/click'
 
   get 'evaluation/index'
