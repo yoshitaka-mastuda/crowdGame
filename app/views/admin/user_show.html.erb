@@ -15,11 +15,6 @@
     <li>支払ポイント: <input id='pay' type="number" value=<%= @user.payment %>></li>
     <li>未払ポイント: <%= @user.rest_point %></li>
   </ul>
-
-  <div id="text">
-    <p>ああああああ</p>
-  </div>
-
 </div>
 <div class="row">
   <h3>収集ツイート</h3>
@@ -70,7 +65,6 @@
     jQuery(function () {
         jQuery('#pay').on({
             'change': function () {
-                jQuery('#text').text('んんんんんんんん');
                 jQuery.ajax({
                     url: '<%= admin_pay_url %>',
                     type: "GET",
