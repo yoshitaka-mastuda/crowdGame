@@ -19,7 +19,7 @@
       <tr>
         <td><%= a_t.text %></td>
         <td><%= a_t.accept_count %></td>
-        <td><%= a_t.reject_count %></td>
+        <td><%= link_to tweet_insert_reason_path(t_id: a_t.tweet_id) do %><%= a_t.reject_count %><% end %></td>
       </tr>
   <% end %>
   </tbody>
