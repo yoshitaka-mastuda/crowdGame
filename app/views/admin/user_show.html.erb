@@ -1,3 +1,7 @@
+<div id="text">
+  <p>ああああああ</p>
+</div>
+
 <br>
 <%= link_to '戻る', admin_user_list_path %>
 
@@ -65,6 +69,7 @@
     jQuery(function () {
         jQuery('#pay').on({
             'change': function () {
+                jQuery('#text').text('んんんんんんんん')
                 jQuery.ajax({
                     url: '<%= admin_pay_url %>',
                     type: "GET",
