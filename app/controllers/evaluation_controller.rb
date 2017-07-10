@@ -5,6 +5,7 @@ class EvaluationController < ApplicationController
 
   def new
     session[:behavior] = []
+    session[:behavior].push([0, Time.now])
     if DoingList.where(user_id: current_user.id).length > 0 then
       t_id = DoingList.where(user_id: current_user.id)[0].tweet_id
       @tweet = Tweet.where(tweet_id: t_id)[0]

@@ -110,14 +110,6 @@
             });
         }
 
-        $(window).on('load', function() {
-            jQuery.ajax({
-                url: '<%= user_behavior_click_url %>',
-                type: "GET",
-                data: {state:0}
-            });
-        });
-
         jQuery('#appear').on({
             'mousedown': function () {
                 event.preventDefault();
