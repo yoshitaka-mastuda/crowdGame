@@ -16,7 +16,8 @@ class EvaluationController < ApplicationController
       t.save
     end
     Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).each do |t|
-      flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」など#{r_count}件が拒否されました。"
+      @reason = Vote.where(tweet_id: t.tweet_id).first
+      flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」が「#{@reason.message}」などの理由で非承認となりました。新しく全部で#{r_count}件が非承認です。"
       t.notice_flag=1
       t.save
     end

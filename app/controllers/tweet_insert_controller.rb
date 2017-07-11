@@ -19,6 +19,8 @@ class TweetInsertController < ApplicationController
       t.save
     end
     Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).each do |t|
+      @reason = Vote.where(tweet_id: t.tweet_id).first
+      flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」が「#{@reason.message}」などの理由で非承認となりました。新しく全部で#{r_count}件が非承認です。"
       flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」など#{r_count}件が拒否されました。"
       t.notice_flag=1
       t.save
@@ -100,7 +102,8 @@ class TweetInsertController < ApplicationController
     current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
     current_user.total_count = current_user.accept_count + current_user.evaluation_count
     current_user.save
-    @pending_tweets = Tweet.where(:user_id => current_user.id, :pending => true).order('updated_at DESC').all
+    @accept_tweets = Tweet.where(:user_id => current_user.id, :pending => true, :reject_count => 0).order('updated_at DESC').all
+    @reject_tweets = Tweet.where(:user_id => current_user.id, :pending => true, :reject_count => 1..5).order('updated_at DESC').all
   end
 
   def reason
