@@ -50,7 +50,7 @@ class AdminController < ApplicationController
   end
 
   def message
-    @reason = Vote.where(:evaluation => 0)
+    @reason = Vote.where(:evaluation => 0).order('id DESC')
   end
 
   def tweet_url
