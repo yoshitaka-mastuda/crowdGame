@@ -126,7 +126,7 @@
         }
 
         jQuery('#appear').on({
-            'mousedown': function () {
+            'mousedown': function (event) {
                 event.preventDefault();
                 jQuery('span#tweet').show();
                 jQuery.ajax({
@@ -136,7 +136,7 @@
                 });
 
             },
-            'touchstart': function () {
+            'touchstart': function (event) {
                 event.preventDefault();
                 jQuery('span#tweet').show();
                 jQuery.ajax({
@@ -145,7 +145,7 @@
                     data: {state:1}
                 });
             },
-            'mouseup': function () {
+            'mouseup': function (event) {
                 event.preventDefault();
                 jQuery('span#tweet').hide();
                 jQuery.ajax({
@@ -155,7 +155,7 @@
                 });
 
             },
-            'touchend': function () {
+            'touchend': function (event) {
                 event.preventDefault();
                 jQuery('span#tweet').hide();
                 jQuery.ajax({
@@ -164,7 +164,7 @@
                     data: {state:2}
                 });
             },
-            'mouseout': function() {
+            'mouseout': function(event) {
                 event.preventDefault();
                 jQuery('span#tweet').hide();
                 jQuery.ajax({
