@@ -27,12 +27,12 @@ class EvaluationController < ApplicationController
       t_id = DoingList.where(user_id: current_user.id)[0].tweet_id
       @tweet = Tweet.where(tweet_id: t_id)[0]
     elsif Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id AND v.user_id = :user LEFT OUTER JOIN doing_lists d ON t.tweet_id = d.tweet_id WHERE t.user_id != :user AND t.votes_count < 5 AND v.user_id IS NULL AND d.user_id IS NULL ORDER BY t.votes_count DESC', {user: current_user.id}]).length > 0 then
-      @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id AND v.user_id = :user LEFT OUTER JOIN doing_lists d ON t.tweet_id = d.tweet_id WHERE t.user_id != :user AND t.votes_count < 5 AND v.user_id IS NULL AND d.user_id IS NULL ORDER BY t.votes_count DESC', {user: current_user.id}]).first(10)
+      @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id AND v.user_id = :user LEFT OUTER JOIN doing_lists d ON t.tweet_id = d.tweet_id WHERE t.user_id != :user AND t.votes_count < 5 AND v.user_id IS NULL AND d.user_id IS NULL ORDER BY t.votes_count DESC', {user: current_user.id}]).first(5)
       @tweet = @tweets[rand(@tweets.length)]
       DoingList.create(user_id: current_user.id, tweet_id: @tweet.tweet_id)
       DoingList.all.each do |c|
         time_spent = Time.now - c.created_at
-        if time_spent > 3600 * 24
+        if time_spent > 3600 * 1
           c.destroy
         end
       end

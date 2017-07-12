@@ -20,6 +20,10 @@ Rails.application.routes.draw do
   resources :tweet_insert
 
   get 'admin/pay'
+  get 'admin/tweet'
+  get 'admin/reason'
+  get 'admin/message'
+  get 'admin/tweet_url'
   get 'admin/user_list', to: 'admin#user_list'
   get 'admin/user_show', to: 'admin#user_show'
 

@@ -23,8 +23,9 @@ class AdminController < ApplicationController
     auto_tweet_0 = Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id WHERE v.user_id = :user AND v.evaluation = 0 AND t.user_id = 99999', {user: params[:user_id]}]).count
     manual_tweet_1 = Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id WHERE v.user_id = :user AND v.evaluation = 1 AND t.user_id != 99999', {user: params[:user_id]}]).count
     manual_tweet_0 = Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id WHERE v.user_id = :user AND v.evaluation = 0 AND t.user_id != 99999', {user: params[:user_id]}]).count
-    @accept_rate = manual_tweet_1.to_f / (manual_tweet_1.to_f + manual_tweet_0.to_f) * 100.0
-    @reject_rate = auto_tweet_0.to_f / (auto_tweet_0.to_f + auto_tweet_1.to_f) * 100.0
+    @accept_rate = (manual_tweet_1.to_f + auto_tweet_1.to_f) / (manual_tweet_1.to_f + manual_tweet_0.to_f + auto_tweet_0.to_f + auto_tweet_1.to_f) * 100.0
+    @manual_accept_rate = manual_tweet_1.to_f / (manual_tweet_1.to_f + manual_tweet_0.to_f) * 100.0
+    @auto_reject_rate = auto_tweet_0.to_f / (auto_tweet_0.to_f + auto_tweet_1.to_f) * 100.0
   end
 
   def pay
@@ -32,6 +33,29 @@ class AdminController < ApplicationController
     @user.payment = params[:pay]
     @user.memo = params[:memo]
     @user.save
+  end
+
+  def tweet
+    @manual_accept = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC'])
+    @manual_reject = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC'])
+    @manual_pending = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 0 ORDER BY t.votes_count DESC'])
+    @auto_accept = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC'])
+    @auto_reject = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC'])
+    @auto_pending = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 1 ORDER BY t.votes_count DESC'])
+  end
+
+  def reason
+    @tweet = Tweet.where(:tweet_id => params[:t_id]).first
+    @reason = Vote.where(:tweet_id => params[:t_id], :evaluation => 0)
+  end
+
+  def message
+    @reason = Vote.where(:evaluation => 0)
+  end
+
+  def tweet_url
+    url  = 'https://twitter.com/statuses/' + params[:tweet_id]
+    redirect_to(url)
   end
 
   private

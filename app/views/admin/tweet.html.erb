@@ -1,0 +1,121 @@
+<br><br>
+<%= link_to '戻る', admin_path %>
+
+<h2>手動ツイート</h2>
+<p>全ツイート数：<%= @manual_accept.count + @manual_reject.count + @manual_pending.count %></p>
+<p>審査中ツイート数：<%= @manual_pending.count %></p>
+<p>適切ツイート数：<%= @manual_accept.count %></p>
+<p>不適切ツイート数：<%= @manual_reject.count %></p>
+<h3>手動ツイート一覧（適切）</h3>
+<table class="table table-bordered table-responsive table-striped">
+  <tr>
+    <th>ツイート</th>
+    <th>適切数</th>
+    <th>不適切数</th>
+    <th>評価数</th>
+  </tr>
+  <% @manual_accept.each do |t| %>
+      <tr>
+        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
+        <td><%= t.accept_count %></td>
+        <td><%= t.reject_count %></td>
+        <td><%= t.votes_count %></td>
+      </tr>
+  <% end %>
+</table>
+<h3>手動ツイート一覧（不適切）</h3>
+<table class="table table-bordered table-responsive table-striped">
+  <tr>
+    <th>ツイート</th>
+    <th>適切数</th>
+    <th>不適切数</th>
+    <th>評価数</th>
+  </tr>
+  <% @manual_reject.each do |t| %>
+      <tr>
+        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
+        <td><%= t.accept_count %></td>
+        <td><%= t.reject_count %></td>
+        <td><%= t.votes_count %></td>
+      </tr>
+  <% end %>
+</table>
+
+<h3>手動ツイート一覧（審査中）</h3>
+<table class="table table-bordered table-responsive table-striped">
+  <tr>
+    <th>ツイート</th>
+    <th>適切数</th>
+    <th>不適切数</th>
+    <th>評価数</th>
+  </tr>
+  <% @manual_pending.each do |t| %>
+      <tr>
+        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
+        <td><%= t.accept_count %></td>
+        <td><%= t.reject_count %></td>
+        <td><%= t.votes_count %></td>
+      </tr>
+  <% end %>
+</table>
+
+<p>============================================================</p>
+
+<h2>自動ツイート</h2>
+<p>全ツイート数：<%= @auto_accept.count + @auto_reject.count + @auto_pending.count %></p>
+<p>審査中ツイート数：<%= @auto_pending.count %></p>
+<p>適切ツイート数：<%= @auto_accept.count %></p>
+<p>不適切ツイート数：<%= @auto_reject.count %></p>
+<h3>自動ツイート一覧（適切）</h3>
+<table class="table table-bordered table-responsive table-striped">
+  <tr>
+    <th>ツイート</th>
+    <th>適切数</th>
+    <th>不適切数</th>
+    <th>評価数</th>
+  </tr>
+  <% @auto_accept.each do |t| %>
+      <tr>
+        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
+        <td><%= t.accept_count %></td>
+        <td><%= t.reject_count %></td>
+        <td><%= t.votes_count %></td>
+      </tr>
+  <% end %>
+</table>
+
+<h3>自動ツイート一覧（不適切）</h3>
+<table class="table table-bordered table-responsive table-striped">
+  <tr>
+    <th>ツイート</th>
+    <th>適切数</th>
+    <th>不適切数</th>
+    <th>評価数</th>
+  </tr>
+  <% @auto_reject.each do |t| %>
+      <tr>
+        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
+        <td><%= t.accept_count %></td>
+        <td><%= t.reject_count %></td>
+        <td><%= t.votes_count %></td>
+      </tr>
+  <% end %>
+</table>
+
+<h3>自動ツイート一覧（審査中）</h3>
+<table class="table table-bordered table-responsive table-striped">
+  <tr>
+    <th>ツイート</th>
+    <th>適切数</th>
+    <th>不適切数</th>
+    <th>評価数</th>
+  </tr>
+  <% @auto_pending.each do |t| %>
+      <tr>
+        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
+        <td><%= t.accept_count %></td>
+        <td><%= t.reject_count %></td>
+        <td><%= t.votes_count %></td>
+      </tr>
+  <% end %>
+</table>

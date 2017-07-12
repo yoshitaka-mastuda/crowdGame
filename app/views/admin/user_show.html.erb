@@ -25,8 +25,9 @@
       <br><br>
       <input type="button" id="s_button" value="送信"><br><br>
       <p>収集ツイート承認率 : <%= @user.insert_rate %>%</p>
-      <p>評価：手動ツイートaccept率 : <%= @accept_rate %>%</p>
-      <p>評価：自動ツイートreject率 : <%= @reject_rate %>%</p>
+      <p>評価：accept率 : <%= @accept_rate %>%</p>
+      <p>評価：手動ツイートaccept率 : <%= @manual_accept_rate %>%</p>
+      <p>評価：自動ツイートreject率 : <%= @auto_reject_rate %>%</p>
     </div>
   </div>
 </div>

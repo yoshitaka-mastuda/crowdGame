@@ -1,0 +1,25 @@
+<br><br>
+
+<%= link_to '戻る', admin_tweet_path %>
+<br><br>
+
+<blockquote class="twitter-tweet" data-lang="ja">
+  <%= link_to '', @tweet.url %>
+</blockquote>
+
+<table class="table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th>不適切だと判断された理由</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @reason.each do |r| %>
+      <tr>
+        <td><%= r.message %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
