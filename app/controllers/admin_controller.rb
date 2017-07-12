@@ -6,6 +6,13 @@ class AdminController < ApplicationController
 
   def user_list
     @users = User.all.includes(:tweets).order(:username)
+
+    @users.each do |u|
+      u.accept_count = Tweet.where(:user_id => u.id, :accept => true).count
+      u.pending_count = Tweet.where(:user_id => u.id, :pending => true).count
+      u.total_count = u.accept_count + u.evaluation_count
+      u.save
+    end
   end
 
   def user_show
