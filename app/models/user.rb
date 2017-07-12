@@ -36,9 +36,9 @@ class User < ApplicationRecord
 
   def insert_rate
     if (self.accept_count + self.reject_count) != 0 then
-      self.accept_count/(self.accept_count + self.reject_count)*100
+      self.accept_count.to_f/(self.accept_count.to_f + self.reject_count.to_f)*100.0
     else
-      0
+      0.0
     end
   end
 
