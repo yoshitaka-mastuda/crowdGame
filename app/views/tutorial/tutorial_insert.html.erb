@@ -1,0 +1,31 @@
+<div style="font-size:14pt;">
+  <br>
+  <br>
+  <h3>収集作業チュートリアル（１／５）</h3>
+  <br>
+  <p>Twitterから京都の様子が分かるツイートを探してください。</p>
+  <p>例えば、以下のツイートを発見したとします。</p>
+  <br>
+  <blockquote class="twitter-tweet" data-lang="ja">
+    <%= link_to '', 'https://twitter.com/mmk_1225/status/885678856383758337' %>
+  </blockquote>
+  <br>
+  <p>このツイートのURLを下のフォームに記入し、入力ボタンを押してください。</p>
+  <p>（今回はURLは既に記入されていますので、入力ボタンを押して次に進んでください）</p>
+  <br>
+  <br>
+  <div class="panel panel-default devise-bs">
+    <div class="panel-heading">
+      <h4>ツイートの入力</h4>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <p><b>Tweet</b></p>
+        <input style=':text' class='form-control' , value='https://twitter.com/mmk_1225/status/885678856383758337'>
+      </div>
+      <%= link_to '入力', tutorial_tutorial_insert_create_path, class: 'btn btn-primary btn-lg' %>
+    </div>
+  </div>
+</div>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

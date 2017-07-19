@@ -1,7 +1,7 @@
-<br>
-<%= link_to '戻る', tweet_insert_index_path %><br><br>
-  <%= link_to '他のツイートを評価する', evaluation_index_path%>
-  <br><br>
+<br><br>
+<%= link_to '戻る', root_path %><br>
+<%= link_to 'チュートリアル', tutorial_tutorial_insert_path %>
+<br><br>
 
 
 <div class="panel panel-default devise-bs">
@@ -14,17 +14,20 @@
           <%= f.label :tweet_id %>
           <%= f.text_field :tweet_id, autofocus: true, class: 'form-control input-lg', placeholder: 'https://twitter.com/masason/status/659730015811145728' %>
         </div>
-        <%= f.submit t('.tweet_insert', default: '入力'), class: 'btn btn-primary btn-lg'%>
+        <%= f.submit t('.tweet_insert', default: '入力'), class: 'btn btn-primary btn-lg' %>
     <% end %>
   </div>
 </div>
 
+<br>
+<p>＜作業説明＞</p>
 <ul>
-  <li>Twitterから<font color="red">京都観光</font>に有益な京都の<font color="red">様子が分かる</font>ツイートを探し、<font color="red">URL</font>を記入してください。</li>
-  <li>京都とは<font color="red">京都府全体</font>を指します。</li>
-  <li><font color="red">観光地や駅など観光に関する場所</font>（例えば、「京都駅」「清水寺」「伏見稲荷の近くのカフェ」）の様子が分かるツイートが当てはまります。</li>
-  <li>様子とは「混雑している」「雨が降ってきた」「電車が遅延している」「紅葉が見頃だ」などが当てはまります。</li>
-  <li>文字や写真どちらか一方でも様子が分かればOKです。</li>
-  <li>ツイートの探し方は自由です。</li>
-  <li><font color="red">2016年7月10日以降</font>に投稿されたツイートで、なるべく最近投稿されたツイートにしてください。</li>
+  <li>Twitterから京都の様子が分かるツイートを探し、URLを記入してください。</li>
+  <li>条件</li>
+  <ul>
+    <li><font color="red">京都</font>に関すること。</li>
+    <li>観光地や駅など<font color="red">観光に関する場所。</font></li>
+    <li><font color="red">様子</font>が分かる。</li>
+    <li>なるべく最近（2016年7月10日以降）</li>
+  </ul>
 </ul>

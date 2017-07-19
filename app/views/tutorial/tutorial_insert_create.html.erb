@@ -1,0 +1,24 @@
+<div style="font-size:14pt;">
+  <br>
+  <br>
+  <h3>収集作業チュートリアル（２／５）</h3>
+  <br>
+  <p>下のような確認画面が表示されます。</p>
+  <p>「はい」を押すとツイートが投稿され、ツイートの入力画面に戻ります。</p>
+  <p>「いいえ」を押すとツイートを投稿せずに、ツイートの入力画面に戻ります。</p>
+  <p>先ほど探したツイートがきちんと表示されているので「はい」を押しましょう。
+  <p>今回はツイート入力画面には戻らず、収集するツイートについての詳しい説明に移ります。</p>
+  <br>
+  <br>
+  <p style="font-size:14pt;">こちらのツイートを投稿しますか?</p>
+  <blockquote class="twitter-tweet" data-lang="ja">
+    <%= link_to '', 'https://twitter.com/mmk_1225/status/885678856383758337' %>
+  </blockquote>
+  <br>
+
+  <%= link_to 'はい', tutorial_tutorial_insert_kyoto_path, class: 'btn btn-primary btn-lg' %>
+  <%= link_to 'いいえ', tutorial_tutorial_insert_path, class: 'btn btn-danger btn-lg' %>
+
+</div>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  get 'tutorial/tutorial_insert'
+  get 'tutorial/tutorial_insert_create'
+  get 'tutorial/tutorial_insert_kyoto'
+  get 'tutorial/tutorial_insert_scene'
+  get 'tutorial/tutorial_insert_other'
+  get 'tutorial/tutorial_evaluation'
+  get 'tutorial/tutorial_evaluation2'
+  get 'tutorial/tutorial_evaluation_kyoto'
+  get 'tutorial/tutorial_evaluation_scene'
+  get 'tutorial/tutorial_evaluation_other'
+
+  get 'home/point_manual'
+
+
   resources :doing_lists
   resources :vote_categories
   resources :categories
@@ -24,6 +38,7 @@ Rails.application.routes.draw do
   get 'admin/reason'
   get 'admin/message'
   get 'admin/tweet_url'
+  get 'admin/category_index'
   get 'admin/user_list', to: 'admin#user_list'
   get 'admin/user_show', to: 'admin#user_show'
 

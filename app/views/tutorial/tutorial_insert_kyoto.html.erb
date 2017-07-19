@@ -1,0 +1,99 @@
+<div style="font-size:14pt;" id="all_body">
+  <br>
+  <br>
+  <h3>収集作業チュートリアル（３／５）</h3>
+  <p>該当するツイートの基準（場所編）</p>
+  <br>
+  <p>京都府全体の観光地や交通機関など観光に関する場所に対するツイートが該当します。</p>
+  <p>　例：「清水寺」「京都駅」「祇園祭」</p>
+  <br>
+  <p>では、練習問題です。</p>
+  <p>下の4つのツイートが基準を満たしているかチェックしてください。</p>
+  <p>すべて正解すると次へのボタンが押せます。</p>
+  <br>
+  <p>Q1：
+    <span id="q1click_yes"><input type="radio" name="q1" value="1">&nbsp;当てはまる</span>&nbsp;&nbsp;&nbsp;
+    <span id="q1click_no"><input type="radio" name="q1" value="0">&nbsp;当てはまらない</span>&nbsp;&nbsp;&nbsp;
+    <span id="q1ans" style="color:#ff0000;"></span>
+  </p>
+  <blockquote class="twitter-tweet" data-lang="ja">
+    <%= link_to '', 'https://twitter.com/mmk_1225/status/885678856383758337' %>
+  </blockquote>
+  </span>
+  <br>
+  <p>Q2：
+    <span id="q1click_yes"><input type="radio" name="q2" value="1">&nbsp;当てはまる</span>&nbsp;&nbsp;&nbsp;
+    <span id="q1click_no"><input type="radio" name="q2" value="0">&nbsp;当てはまらない</span>&nbsp;&nbsp;&nbsp;
+    <span id="q2ans" style="color:#ff0000;"></span>
+  </p>
+  <blockquote class="twitter-tweet" data-lang="ja">
+    <%= link_to '', 'https://twitter.com/__y_nl_/status/885753877164728320' %>
+  </blockquote>
+  </span>
+  <br>
+  <p>Q3：
+    <span id="q1click_yes"><input type="radio" name="q3" value="1">&nbsp;当てはまる</span>&nbsp;&nbsp;&nbsp;
+    <span id="q1click_no"><input type="radio" name="q3" value="0">&nbsp;当てはまらない</span>&nbsp;&nbsp;&nbsp;
+    <span id="q3ans" style="color:#ff0000;"></span>
+  </p>
+  <blockquote class="twitter-tweet" data-lang="ja">
+    <%= link_to '', 'https://twitter.com/HN2521/status/886520615342981121' %>
+  </blockquote>
+  </span>
+  <br>
+  <p>Q4：
+    <span id="q1click_yes"><input type="radio" name="q4" value="1">&nbsp;当てはまる</span>&nbsp;&nbsp;&nbsp;
+    <span id="q1click_no"><input type="radio" name="q4" value="0">&nbsp;当てはまらない</span>&nbsp;&nbsp;&nbsp;
+    <span id="q4ans" style="color:#ff0000;"></span>
+  </p>
+  <blockquote class="twitter-tweet" data-lang="ja">
+    <%= link_to '', 'https://twitter.com/meruumajo/status/886787487829336064' %>
+  </blockquote>
+  </span>
+  <br>
+
+  <input type="button" value="次へ" id="link" class='btn btn-primary btn-lg' style="color:#FFFFFF;" onClick="document.location='tutorial_insert_scene';"></inputbutton>
+
+</div>
+
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script>
+    jQuery(function () {
+        jQuery('#all_body').on({
+            'mousemove': function () {
+                if (jQuery('input[name=q1]:checked').val() == "1" && jQuery('input[name=q2]:checked').val() == "0" && jQuery('input[name=q3]:checked').val() == "1" && jQuery('input[name=q4]:checked').val() == "0") {
+                    jQuery("#link").prop("disabled", false);
+                }
+                else {
+                    jQuery("#link").prop("disabled", true);
+                }
+                if (jQuery('input[name=q1]:checked').val() == "1") {
+                    jQuery("#q1ans").text("正解！！！");
+                }
+                else if (jQuery('input[name=q1]:checked').val() == "0") {
+                    jQuery("#q1ans").text("不正解（場所は有名な観光地である「伏見稲荷大社」）");
+                }
+                if (jQuery('input[name=q2]:checked').val() == "0") {
+                    jQuery("#q2ans").text("正解！！！");
+                }
+                else if (jQuery('input[name=q2]:checked').val() == "1") {
+                    jQuery("#q2ans").text("不正解...（イオンは観光に関する場所とは言い難いです）");
+                }
+                if (jQuery('input[name=q3]:checked').val() == "1") {
+                    jQuery("#q3ans").text("正解！！！");
+                }
+                else if (jQuery('input[name=q3]:checked').val() == "0") {
+                    jQuery("#q3ans").text("不正解...（京都駅を利用する観光客も多いでしょう）");
+                }
+                if (jQuery('input[name=q4]:checked').val() == "0") {
+                    jQuery("#q4ans").text("正解！！！");
+                }
+                else if (jQuery('input[name=q4]:checked').val() == "1") {
+                    jQuery("#q4ans").text("不正解...（競馬場は観光に関する場所とは言い難いです）");
+                }
+            }
+        });
+    });
+</script>

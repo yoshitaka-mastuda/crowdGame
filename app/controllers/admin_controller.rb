@@ -10,7 +10,10 @@ class AdminController < ApplicationController
     @users.each do |u|
       u.accept_count = Tweet.where(:user_id => u.id, :accept => true).count
       u.pending_count = Tweet.where(:user_id => u.id, :pending => true).count
-      u.total_count = u.accept_count + u.evaluation_count
+      u.total_count = u.accept_count + u.evaluation_count + u.evaluation_count2
+      u.accept_point = u.accept_count * 5 + u.pending_count
+      u.evaluation_point = u.evaluation_count*1 + u.evaluation_count2*1
+      u.total_point = u.accept_point + u.evaluation_point
       u.save
     end
   end
@@ -26,6 +29,7 @@ class AdminController < ApplicationController
     @accept_rate = (manual_tweet_1.to_f + auto_tweet_1.to_f) / (manual_tweet_1.to_f + manual_tweet_0.to_f + auto_tweet_0.to_f + auto_tweet_1.to_f) * 100.0
     @manual_accept_rate = manual_tweet_1.to_f / (manual_tweet_1.to_f + manual_tweet_0.to_f) * 100.0
     @auto_reject_rate = auto_tweet_0.to_f / (auto_tweet_0.to_f + auto_tweet_1.to_f) * 100.0
+    @ranking = User.all.order('total_count DESC').select("id").pluck(:id).find_index(params[:user_id].to_i) + 1
   end
 
   def pay
@@ -56,6 +60,18 @@ class AdminController < ApplicationController
   def tweet_url
     url  = 'https://twitter.com/statuses/' + params[:tweet_id]
     redirect_to(url)
+  end
+
+  def category_index
+    @accept_tweet = Tweet.where(:accept => 1)
+    @category_0 = VoteCategory.find_by_sql(['SELECT c.*, v.*, t.* FROM vote_categories c INNER JOIN votes v ON c.vote_id = v.id INNER JOIN tweets t ON v.tweet_id = t.tweet_id WHERE c.category_id = 0']).uniq {|vote| vote.tweet_id}
+    @category_1 = VoteCategory.find_by_sql(['SELECT c.*, v.*, t.* FROM vote_categories c INNER JOIN votes v ON c.vote_id = v.id INNER JOIN tweets t ON v.tweet_id = t.tweet_id WHERE c.category_id = 1']).uniq {|vote| vote.tweet_id}
+    @category_2 = VoteCategory.find_by_sql(['SELECT c.*, v.*, t.* FROM vote_categories c INNER JOIN votes v ON c.vote_id = v.id INNER JOIN tweets t ON v.tweet_id = t.tweet_id WHERE c.category_id = 2']).uniq {|vote| vote.tweet_id}
+    @category_3 = VoteCategory.find_by_sql(['SELECT c.*, v.*, t.* FROM vote_categories c INNER JOIN votes v ON c.vote_id = v.id INNER JOIN tweets t ON v.tweet_id = t.tweet_id WHERE c.category_id = 3']).uniq {|vote| vote.tweet_id}
+    @category_4 = VoteCategory.find_by_sql(['SELECT c.*, v.*, t.* FROM vote_categories c INNER JOIN votes v ON c.vote_id = v.id INNER JOIN tweets t ON v.tweet_id = t.tweet_id WHERE c.category_id = 4']).uniq {|vote| vote.tweet_id}
+    @category_5 = VoteCategory.find_by_sql(['SELECT c.*, v.*, t.* FROM vote_categories c INNER JOIN votes v ON c.vote_id = v.id INNER JOIN tweets t ON v.tweet_id = t.tweet_id WHERE c.category_id = 5']).uniq {|vote| vote.tweet_id}
+    @category_6 = VoteCategory.find_by_sql(['SELECT c.*, v.*, t.* FROM vote_categories c INNER JOIN votes v ON c.vote_id = v.id INNER JOIN tweets t ON v.tweet_id = t.tweet_id WHERE c.category_id = 6']).uniq {|vote| vote.tweet_id}
+    @category_7 = VoteCategory.find_by_sql(['SELECT c.*, v.*, t.* FROM vote_categories c INNER JOIN votes v ON c.vote_id = v.id INNER JOIN tweets t ON v.tweet_id = t.tweet_id WHERE c.category_id = 7']).uniq {|vote| vote.tweet_id}
   end
 
   private

@@ -5,25 +5,32 @@ class TweetInsertController < ApplicationController
   end
 
   def new
-    @tweet = Tweet.new
-    current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
-    current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-    current_user.total_count = current_user.accept_count + current_user.evaluation_count
-    current_user.save
+    if current_user.tutorial == 0 or current_user.tutorial == 1 then
+      flash.now[:alert] = '作業を開始するためにはチュートリアルが必要です。'
+      render "home/index"
+    else
+      @tweet = Tweet.new
+      current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
+      current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
+      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
+      current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
+      current_user.total_point = current_user.accept_point + current_user.evaluation_point
+      current_user.save
 
-    a_count = Tweet.where(user_id: current_user.id, accept: 1, notice_flag: 0).count
-    r_count = Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).count
-    Tweet.where(user_id: current_user.id, accept: 1, notice_flag: 0).each do |t|
-      flash.now[:notice] = "あなたが収集したツイート「#{t.text}」など#{a_count}件が承認されました。"
-      t.notice_flag=1
-      t.save
-    end
-    Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).each do |t|
-      @reason = Vote.where(tweet_id: t.tweet_id).first
-      flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」が「#{@reason.message}」などの理由で非承認となりました。新しく全部で#{r_count}件が非承認です。"
-      flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」など#{r_count}件が拒否されました。"
-      t.notice_flag=1
-      t.save
+      a_count = Tweet.where(user_id: current_user.id, accept: 1, notice_flag: 0).count
+      r_count = Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).count
+      Tweet.where(user_id: current_user.id, accept: 1, notice_flag: 0).each do |t|
+        flash.now[:notice] = "あなたが収集したツイート「#{t.text}」など#{a_count}件が承認されました。"
+        t.notice_flag=1
+        t.save
+      end
+      Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).each do |t|
+        @reason = Vote.where(tweet_id: t.tweet_id).first
+        flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」が「#{@reason.message}」などの理由で非承認となりました。新しく全部で#{r_count}件が非承認です。"
+        flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」など#{r_count}件が拒否されました。"
+        t.notice_flag=1
+        t.save
+      end
     end
   end
 
@@ -38,7 +45,7 @@ class TweetInsertController < ApplicationController
       id = ids[ids.size - 1]
     end
 
-    redirect_to new_tweet_insert_path, :alert => 'そのツイートは既に登録済みです。'  if Tweet.where(tweet_id: id).count > 0
+    redirect_to new_tweet_insert_path, :alert => 'そのツイートは既に登録済みです。' if Tweet.where(tweet_id: id).count > 0
 
     client = Twitter::REST::Client.new do |c|
       c.consumer_key = 'sH5GApBCzDxAwPUJpiVoZpBqg'
@@ -74,6 +81,7 @@ class TweetInsertController < ApplicationController
       tweet.user_id = current_user.id
       tweet.created_at = params[:tweet][:created_at]
       tweet.auto_flag = 0
+      tweet.version = 2
 
       user.save if TwitterUser.find_by_twitter_user_id(user.twitter_user_id).nil?
       tweet.save if Tweet.find_by_tweet_id(tweet.tweet_id).nil?
@@ -81,7 +89,9 @@ class TweetInsertController < ApplicationController
       current_user.tweet_count = Tweet.where(:user_id => current_user.id).count
       current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
       current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-      current_user.total_count = current_user.accept_count + current_user.evaluation_count
+      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
+      current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
+      current_user.total_point = current_user.accept_point + current_user.evaluation_point
       current_user.save
 
       redirect_to new_tweet_insert_path, notice: 'ツイートを登録しました。'
@@ -91,7 +101,9 @@ class TweetInsertController < ApplicationController
   def confirm
     current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
     current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-    current_user.total_count = current_user.accept_count + current_user.evaluation_count
+    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
+    current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
+    current_user.total_point = current_user.accept_point + current_user.evaluation_point
     current_user.save
     @accept_tweets = Tweet.where(:user_id => current_user.id, :accept => true).order('updated_at DESC').all
     @reject_tweets = Tweet.where(:user_id => current_user.id, :reject => true).order('updated_at DESC').all
@@ -100,7 +112,9 @@ class TweetInsertController < ApplicationController
   def pending
     current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
     current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-    current_user.total_count = current_user.accept_count + current_user.evaluation_count
+    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
+    current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
+    current_user.total_point = current_user.accept_point + current_user.evaluation_point
     current_user.save
     @accept_tweets = Tweet.where(:user_id => current_user.id, :pending => true, :reject_count => 0).order('updated_at DESC').all
     @reject_tweets = Tweet.where(:user_id => current_user.id, :pending => true, :reject_count => 1..5).order('updated_at DESC').all

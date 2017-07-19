@@ -18,18 +18,6 @@ class User < ApplicationRecord
     self.tweet_count - self.accept_count - self.pending_count
   end
 
-  def accept_point
-    self.accept_count * 5
-  end
-
-  def evaluation_point
-    self.evaluation_count
-  end
-
-  def total_point
-    self.accept_point + self.evaluation_point
-  end
-
   def rest_point
     self.total_point - self.payment
   end
@@ -40,6 +28,30 @@ class User < ApplicationRecord
     else
       0.0
     end
+  end
+
+  def ranking
+    User.all.order('total_point DESC').select("id").pluck(:id).find_index(self.id.to_i) + 1
+  end
+
+  def higher_point
+    User.all.order('total_point DESC').limit(1).offset(self.ranking-2).select('total_point').pluck('total_point')[0]
+  end
+
+  def rank_up_point
+    if self.ranking == 1 then
+      0
+    else
+      self.higher_point - self.total_point
+    end
+  end
+
+  def doing_worker
+    DoingList.count
+  end
+
+  def worker
+    User.count
   end
 
 

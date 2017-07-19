@@ -24,10 +24,11 @@ end
 max_id = nil
 loop do
 
-  auto_count = Tweet.where(auto_flag: 1).count
-  manual_count = Tweet.where(auto_flag: 0).count
+  tweets = Tweet.last(5)
+  @tweets = Tweet.where(id: tweets.map{ |tweet| tweet.id })
+  auto_count = @tweets.where(auto_flag: 1).count
 
-  if auto_count < manual_count then
+  if auto_count == 0 then
     result = client.search('京都+(天気 OR 観光 OR 交通 OR 電車 OR バス) -(東京都 OR RT)', count: 1, lang: 'ja', locale: 'ja', result_type: 'recent', since_id: max_id)
     max_id = result.attrs[:search_metadata][:max_id]
     result.take(1).reverse.each do |s|
@@ -39,10 +40,8 @@ loop do
       tweet.auto_flag = 1
       tweet.created_at = Time.now
       tweet.updated_at = Time.now
-      puts "find"
       if Tweet.find_by_tweet_id(tweet.tweet_id).nil? then
         tweet.save if Tweet.find_by_tweet_id(tweet.tweet_id).nil?
-        puts "insert"
 
         user = TwitterUser.new
         user.twitter_user_id = s.user.id

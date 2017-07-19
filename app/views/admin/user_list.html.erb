@@ -1,4 +1,3 @@
-
 <br><br>
 <%= link_to '戻る', admin_path %>
 
@@ -6,6 +5,7 @@
 <table class="table table-bordered table-responsive table-striped">
   <tr>
     <th>ユーザ名</th>
+    <th>順位</th>
     <th>収集ツイート数</th>
     <th>承認ツイート数</th>
     <th>非承認ツイート数</th>
@@ -20,6 +20,7 @@
   <% @users.each do |u| %>
   <tr>
     <td><%= link_to u.username, {:controller => 'admin', :action => 'user_show', :user_id => u.id} %></td>
+    <td><%= u.ranking %></td>
     <td><%= u.tweet_count %></td>
     <td><%= u.accept_count %></td>
     <td><%= u.reject_count %></td>

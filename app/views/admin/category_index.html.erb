@@ -1,0 +1,121 @@
+<br><br>
+
+<%= link_to '戻る', admin_path %>
+<br><br>
+
+<p>acceptツイート数：<%= @accept_tweet.count %></p>
+<p>天気：<%= @category_0.count %>（<%= @category_0.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<p>混雑：<%= @category_1.count %>（<%= @category_1.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<p>景観：<%= @category_2.count %>（<%= @category_2.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<p>交通：<%= @category_3.count %>（<%= @category_3.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<p>イベント：<%= @category_4.count %>（<%= @category_4.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<p>食事：<%= @category_5.count %>（<%= @category_5.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<p>観光地：<%= @category_6.count %>（<%= @category_6.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<p>その他：<%= @category_7.count %>（<%= @category_7.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+
+<br>
+<h3><p>天気</p></h3>
+<p>ツイート数：<%= @category_0.count %>（<%= @category_0.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ツイート</th>
+  </tr>
+  <% @category_0.each do |c| %>
+      <tr>
+        <td><%= c.text %></td>
+      </tr>
+  <% end %>
+</table>
+<br>
+<h3><p>混雑</p></h3>
+<p>ツイート数：<%= @category_1.count %>（<%= @category_1.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ツイート</th>
+  </tr>
+  <% @category_1.each do |c| %>
+      <tr>
+        <td><%= c.text %></td>
+      </tr>
+  <% end %>
+</table>
+<br>
+<h3><p>景観</p></h3>
+<p>ツイート数：<%= @category_2.count %>（<%= @category_2.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ツイート</th>
+  </tr>
+  <% @category_2.each do |c| %>
+      <tr>
+        <td><%= c.text %></td>
+      </tr>
+  <% end %>
+</table>
+<br>
+<h3><p>交通</p></h3>
+<p>ツイート数：<%= @category_3.count %>（<%= @category_3.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ツイート</th>
+  </tr>
+  <% @category_3.each do |c| %>
+      <tr>
+        <td><%= c.text %></td>
+      </tr>
+  <% end %>
+</table>
+<br>
+<h3><p>イベント</p></h3>
+<p>ツイート数：<%= @category_4.count %>（<%= @category_4.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ツイート</th>
+  </tr>
+  <% @category_4.each do |c| %>
+      <tr>
+        <td><%= c.text %></td>
+      </tr>
+  <% end %>
+</table>
+<br>
+<h3><p>食事</p></h3>
+<p>ツイート数：<%= @category_5.count %>（<%= @category_5.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ツイート</th>
+  </tr>
+  <% @category_5.each do |c| %>
+      <tr>
+        <td><%= c.text %></td>
+      </tr>
+  <% end %>
+</table>
+<br>
+<h3><p>観光地</p></h3>
+<p>ツイート数：<%= @category_6.count %>（<%= @category_6.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ツイート</th>
+  </tr>
+  <% @category_6.each do |c| %>
+      <tr>
+        <td><%= c.text %></td>
+      </tr>
+  <% end %>
+</table>
+<br>
+<h3><p>その他</p></h3>
+<p>ツイート数：<%= @category_7.count %>（<%= @category_7.count.to_f / @accept_tweet.count.to_f * 100 %>%）</p>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>ツイート</th>
+  </tr>
+  <% @category_7.each do |c| %>
+      <tr>
+        <td><%= c.text %></td>
+      </tr>
+  <% end %>
+</table>
+
+

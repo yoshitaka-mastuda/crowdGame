@@ -1,33 +1,24 @@
-<div style="font-size:12pt;">
+<div style="font-size:14pt;">
+  <br><br>
+  <h2>【京都観光に関するデータ収集・評価】</h2>
+  <p>Twitterから京都観光に関する最新の情報を収集したいと考えています。</p>
+  <p>皆様が収集・評価したツイートは、京都観光を行う利用者に対して有益な情報を提供するための人工知能構築に利用されます。</p>
+  <br><br>
+
   <% if user_signed_in? %>
-      <br>
-      <p>作業を選択してください↓</p>
-      <%= link_to '収集作業', tweet_insert_index_path, class: 'btn btn-primary btn-lg'%>&nbsp;&nbsp;
-      <%= link_to '評価作業', evaluation_index_path, class: 'btn btn-warning btn-lg' %>
+      <p>初めて作業される方はチュートリアルが必須です↓</p>
+      <%= link_to '収集作業のチュートリアル', tutorial_tutorial_insert_path, class: 'btn btn-primary btn-lg' %>&nbsp;&nbsp;
+      <%= link_to '評価作業のチュートリアル', tutorial_tutorial_evaluation_path, class: 'btn btn-warning btn-lg' %>
       <br><br>
-      <h3>＜ポイントの説明と申請方法＞</h3>
-      <ul>
-        <li>ツイートの収集や評価を行うことでポイントが付与されます。</li>
-        <li>ツイートの収集は審査に通らなければポイントは付与されません。審査は以下のように行われます。（ツイートの評価には審査はありません。）</li>
-        <ul>
-          <li>あなたが収集したツイートは他の5人に適しているかどうか評価されます。</li>
-          <li>5人のうち3人以上が適していると判断した場合に承認され、ポイントが付与されます。</li>
-        </ul>
-        <li>ポイントは画面上部に記載されます。</li>
-        <li>それぞれのポイントの意味と付与されるタイミングは以下の通りです。</li>
-        <ul>
-          <li>審査中：あなたが収集したツイートのうちまだ審査中であるツイート数です。クリックすると審査状況が確認できます。</li>
-          <li>収集ポイント：あなたが収集したツイートが審査に通った時に獲得できるポイントです。1ツイートに対して5ポイント獲得できます。クリックすると承認されたツイートと非承認になったツイートが確認できます。</li>
-          <li>評価ポイント：他の方が収集したツイートに対してあなたが評価した時に獲得できるポイントです。1つの評価につき1ポイント獲得できます。</li>
-          <li>合計ポイント：収集ポイントと評価ポイントの合計です。</li>
-        </ul>
-        <li>作業終了後、クラウドワークスで申請をしてください。</li>
-        <li>申請にはユーザ名と申請時の合計ポイントを記載してください。</li>
-      </ul>
+      <p>作業を選択してください↓</p>
+      <%= link_to '収集作業を始める', new_tweet_insert_path, class: 'btn btn-primary btn-lg' %>&nbsp;&nbsp;
+      <%= link_to '評価作業を始める', evaluation_new_path, class: 'btn btn-warning btn-lg' %>
+      <br><br>
+      <p>ポイントの説明や申請方法の確認↓</p>
+      <%= link_to 'ポイントマニュアル', home_point_manual_path, class: 'btn btn-success btn-lg' %>&nbsp;&nbsp;
+
   <% else %>
-      <p style="font-size:16pt;">ようこそ！</p>
-      <p>ツイートの収集と他の方が収集したツイートへの評価をしていただきます。</p>
-      <p>それぞれの作業の詳しい説明やクラウドワークスでの申請の仕方はログインすると確認できます。</p>
+      <p>詳しい説明はログインすると確認できます。</p>
       <br>
       <p>初めて作業をされる方：</p>
       <p>　アカウントを新規登録しログインしてください。</p>
@@ -35,7 +26,7 @@
       <p>以前作業をされた方：</p>
       <p>　ログインして作業に進んでください。新しくアカウントを登録する必要はありません。</p>
       <br>
-      <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary btn-lg'%>&nbsp;&nbsp;
+      <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary btn-lg' %>&nbsp;&nbsp;
       <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-warning btn-lg' %>
   <% end %>
 </div>
