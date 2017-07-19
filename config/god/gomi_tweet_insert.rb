@@ -24,7 +24,7 @@ end
 max_id = nil
 loop do
 
-  tweets = Tweet.last(5)
+  tweets = Tweet.last(3)
   @tweets = Tweet.where(id: tweets.map{ |tweet| tweet.id })
   auto_count = @tweets.where(auto_flag: 1).count
 
