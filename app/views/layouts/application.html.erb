@@ -94,12 +94,16 @@
                 </span>&nbsp;
           <span style="font-size:12pt;" class="alert alert-warning">
                   合計ポイント:<%= current_user.total_point %>
-                </span>
+                </span>&nbsp;
+          <br class="visible-xs-block"><br class="visible-xs-block"><br class="visible-xs-block">
+          <span style="font-size:12pt;" class="alert alert-warning">
+                  消費ポイント:<%= current_user.payment %>
+                </span>&nbsp;
         </div>
       </div>
   <% end %>
 
   <%= yield %>
-  </div>
-  </body>
+</div>
+</body>
 </html>
