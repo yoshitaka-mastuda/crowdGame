@@ -10,9 +10,9 @@ class AdminController < ApplicationController
     @users.each do |u|
       u.accept_count = Tweet.where(:user_id => u.id, :accept => true).count
       u.pending_count = Tweet.where(:user_id => u.id, :pending => true).count
-      u.total_count = u.accept_count + u.evaluation_count + u.evaluation_count2
-      u.accept_point = u.accept_count * 5 + u.pending_count
-      u.evaluation_point = u.evaluation_count*1 + u.evaluation_count2*1
+      u.total_count = u.accept_count + u.evaluation_count + u.evaluation_count2 + u.evaluation_count3
+      u.accept_point = u.accept_count * 5 + u.pending_count + u.reject_count
+      u.evaluation_point = u.evaluation_count*1 + u.evaluation_count2*1 + u.evaluation_count3*1
       u.total_point = u.accept_point + u.evaluation_point
       u.save
     end
@@ -29,7 +29,7 @@ class AdminController < ApplicationController
     @accept_rate = (manual_tweet_1.to_f + auto_tweet_1.to_f) / (manual_tweet_1.to_f + manual_tweet_0.to_f + auto_tweet_0.to_f + auto_tweet_1.to_f) * 100.0
     @manual_accept_rate = manual_tweet_1.to_f / (manual_tweet_1.to_f + manual_tweet_0.to_f) * 100.0
     @auto_reject_rate = auto_tweet_0.to_f / (auto_tweet_0.to_f + auto_tweet_1.to_f) * 100.0
-    @ranking = User.all.order('total_count DESC').select("id").pluck(:id).find_index(params[:user_id].to_i) + 1
+    @ranking = User.all.order('total_point DESC').select("id").pluck(:id).find_index(params[:user_id].to_i) + 1
   end
 
   def pay

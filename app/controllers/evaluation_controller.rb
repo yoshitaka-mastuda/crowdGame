@@ -10,9 +10,9 @@ class EvaluationController < ApplicationController
     else
       current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
       current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
-      current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
-      current_user.evaluation_point = current_user.evaluation_count*1 + current_user.evaluation_count2*1
+      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2 + current_user.evaluation_count3
+      current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
+      current_user.evaluation_point = current_user.evaluation_count*1 + current_user.evaluation_count2*1 + current_user.evaluation_count3*1
       current_user.total_point = current_user.accept_point + current_user.evaluation_point
       current_user.save
       a_count = Tweet.where(user_id: current_user.id, accept: 1, notice_flag: 0).count
@@ -24,7 +24,7 @@ class EvaluationController < ApplicationController
       end
       Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).each do |t|
         @reason = Vote.where(tweet_id: t.tweet_id).first
-        flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」が「#{@reason.message}」などの理由で非承認となりました。新しく全部で#{r_count}件が非承認です。"
+        flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」など#{r_count}件が非承認となりました。収集ポイントをクリックすると非承認理由が確認できます。"
         t.notice_flag=1
         t.save
       end
@@ -52,7 +52,7 @@ class EvaluationController < ApplicationController
 
   def create
     tweet_id = params[:tweet][:tweet_id]
-    v = Vote.create(user_id: current_user.id, tweet_id: tweet_id, evaluation: params[:evaluation], message: params[:message], version: 2)
+    v = Vote.create(user_id: current_user.id, tweet_id: tweet_id, evaluation: params[:evaluation], version: 3, option: params[:option])
     session[:v_id] = v.id
 
     session[:behavior].each do |e|
@@ -78,16 +78,19 @@ class EvaluationController < ApplicationController
       end
     end
 
-    vote_tweet = Tweet.where(tweet_id: tweet_id)
-    vote_tweet[0].update_column(:votes_count, Vote.where(tweet_id: tweet_id).count)
-    vote_tweet[0].save
-
     if params[:evaluation] == "1" then
       params[:category].each do |e|
         VoteCategory.create(vote_id: v.id, category_id: e)
       end
+    elsif params[:evaluation] == "0" then
+      params[:reason].each do |e|
+        VoteReason.create(vote_id: v.id, reason_id: e)
+      end
     end
 
+    vote_tweet = Tweet.where(tweet_id: tweet_id)
+    vote_tweet[0].update_column(:votes_count, Vote.where(tweet_id: tweet_id).count)
+    vote_tweet[0].save
 
     accept = Vote.where(tweet_id: tweet_id, evaluation: 1).count
     reject = Vote.where(tweet_id: tweet_id, evaluation: 0).count
@@ -105,7 +108,7 @@ class EvaluationController < ApplicationController
       Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
       Tweet.where(:tweet_id => tweet_id)[0].save
     elsif Tweet.where(:tweet_id => tweet_id)[0].delete_count > 1 then
-      Tweet.where(:tweet_id => tweet_id)[0].update_column(:delete, 1)
+      Tweet.where(:tweet_id => tweet_id)[0].update_column(:delete_flag, 1)
       Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
       Tweet.where(:tweet_id => tweet_id)[0].save
     end
@@ -113,12 +116,13 @@ class EvaluationController < ApplicationController
     current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
     current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
 
-    current_user.evaluation_count = Vote.where(:user_id => current_user.id).where.not(:version => 2).count
+    current_user.evaluation_count = Vote.where(:user_id => current_user.id, :version => 1).count
     current_user.evaluation_count2 = Vote.where(:user_id => current_user.id, :version => 2).count
-    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
+    current_user.evaluation_count3 = Vote.where(:user_id => current_user.id, :version => 3).count
+    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2 + current_user.evaluation_count3
 
-    current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
-    current_user.evaluation_point = current_user.evaluation_count*1 + current_user.evaluation_count2*1
+    current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
+    current_user.evaluation_point = current_user.evaluation_count*1 + current_user.evaluation_count2*1 + current_user.evaluation_count3*1
     current_user.total_point = current_user.accept_point + current_user.evaluation_point
 
     current_user.save

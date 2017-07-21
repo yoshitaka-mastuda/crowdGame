@@ -5,35 +5,15 @@
 
 <h1>審査中ツイートの一覧</h1>
 <table class="table table-striped table-bordered">
-  <thead>
-  <tr>
-    <th>不適切の判断が1件以上あるツイート（ツイートをクリックするとその理由が見れます。）</th>
-  </tr>
-  </thead>
-
   <tbody>
-  <% @reject_tweets.each do |a_t| %>
+  <% @pending_tweets.each do |t| %>
       <tr>
-        <td><%= link_to tweet_insert_reason_path(t_id: a_t.tweet_id) do %><%= a_t.text %><% end %></td>
+        <td><%= t.text %></td>
+      </tr>
   <% end %>
   </tbody>
 </table>
 <br>
 
-<table class="table table-striped table-bordered">
-  <thead>
-  <tr>
-    <th>不適切の判断が付いていないツイート</th>
-  </tr>
-  </thead>
-
-  <tbody>
-  <% @accept_tweets.each do |a_t| %>
-      <tr>
-        <td><%= a_t.text %></td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
 
 

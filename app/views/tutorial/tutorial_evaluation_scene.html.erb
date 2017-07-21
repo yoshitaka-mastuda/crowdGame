@@ -33,34 +33,46 @@
         <span id="q1click_nan"><input type="radio" name="evaluation" value="2">&nbsp;ツイートが表示されない</span>
       </span>
     <br><br>
-    <p style="color: #ff0000;" id="q2ans"></p>
+    <div id="q2_hint" style="color:#ff0000;">ツイートの投稿者が京都観光を楽しんだことは分かりますが...</div>
     <br>
-    <div id="q2hide">
-      <p>Q2：<span id="q2text"></span></p>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="q2"><span id="q2_keypress"><textarea id="check_q2" name="message" rows="5" cols="50"></textarea></span></span>
+    <div id="q2_yes">
+      <p>Q2：ツイートのジャンルはなんですか?（当てはまるものすべてにチェックを入れてください）</p>
+      <div id='check_q2_yes'>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="q2click_weather" type="checkbox" name="category[]" value="0">&nbsp;天気
+        &nbsp;&nbsp;
+        <input id="q2click_crowd" type="checkbox" name="category[]" value="1">&nbsp;混雑
+        &nbsp;&nbsp;
+        <input id="q2click_scenery" type="checkbox" name="category[]" value="2">&nbsp;景観
+        &nbsp;&nbsp;
+        <input id="q2click_traffic" type="checkbox" name="category[]" value="3">&nbsp;交通
+        &nbsp;&nbsp;
+        <input id="q2click_ivent" type="checkbox" name="category[]" value="4">&nbsp;イベント
+        &nbsp;&nbsp;
+        <input id="q2click_meal" type="checkbox" name="category[]" value="5">&nbsp;食事
+        &nbsp;&nbsp;
+        <input id="q2click_spot" type="checkbox" name="category[]" value="6">&nbsp;観光地
+        &nbsp;&nbsp;
+        <input id="q2click_other" type="checkbox" name="category[]" value="7">&nbsp;その他
+      </div>
+    </div>
+    <div id="q2_no">
+      <p>Q2：いいえと答えた理由はなんですか?（当てはまるものすべてにチェックを入れてください）</p>
+      <div id='check_q2_no'>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_kyoto" type="checkbox" name="reason[]" value="0">&nbsp;京都と関係がないから<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_sightseeing" type="checkbox" name="reason[]" value="1">&nbsp;観光と関係がないから<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_scene" type="checkbox" name="reason[]" value="2">&nbsp;様子が分からないから<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_old" type="checkbox" name="reason[]" value="3">&nbsp;去年の7月10日以前のツイートだから<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_bot" type="checkbox" name="reason[]" value="4">&nbsp;宣伝や広告、botだから<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_other2" type="checkbox" name="reason[]" value="5">&nbsp;その他
+      </div>
     </div>
     <br>
     <div id="q3">
-      <p>Q3：ツイートのジャンルはなんですか?（当てはまるものすべてにチェックを入れてください）</p>
-      <div id='check_q3'>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <input id="q3click_weather" type="checkbox" name="category[]" value="0">&nbsp;天気
-        &nbsp;&nbsp;
-        <input id="q3click_crowd" type="checkbox" name="category[]" value="1">&nbsp;混雑
-        &nbsp;&nbsp;
-        <input id="q3click_scenery" type="checkbox" name="category[]" value="2">&nbsp;景観
-        &nbsp;&nbsp;
-        <input id="q3click_traffic" type="checkbox" name="category[]" value="3">&nbsp;交通
-        &nbsp;&nbsp;
-        <input id="q3click_ivent" type="checkbox" name="category[]" value="4">&nbsp;イベント
-        &nbsp;&nbsp;
-        <input id="q3click_meal" type="checkbox" name="category[]" value="5">&nbsp;食事
-        &nbsp;&nbsp;
-        <input id="q3click_spot" type="checkbox" name="category[]" value="6">&nbsp;観光地
-        &nbsp;&nbsp;
-        <input id="q3click_other" type="checkbox" name="category[]" value="7">&nbsp;その他
-      </div>
+      <p>Q3：特筆すべきこと（オプション）</p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea id="q3_keypress" name="option" rows="5" cols="50"></textarea>
     </div>
+    <br>
     <br>
     <input type="button" value="送信" id="submit_button" class='btn btn-primary btn-lg' style="color:#FFFFFF;" onClick="document.location='tutorial_evaluation_other';"></inputbutton>
   </div>
@@ -95,38 +107,37 @@
             }
         });
 
-        jQuery("#q2hide").hide();
+        jQuery("#q2_yes").hide();
+        jQuery("#q2_no").hide();
+        jQuery("#q2_hint").hide();
         jQuery("#q3").hide();
         jQuery("#submit_button").prop("disabled", true);
 
         jQuery('#all_body').on({
             'mousemove': function () {
                 if (jQuery('input[name=evaluation]:checked').val() == "2") {
-                    jQuery("#check_q2").val("");
-                    jQuery("#q2hide").hide();
+                    jQuery("#submit_button").prop("disabled", true);
+                    jQuery("#q2_yes").hide();
+                    jQuery("#q2_no").hide();
                     jQuery('input:checkbox').prop('checked', false);
                     jQuery("#q3").hide();
-                    jQuery("#submit_button").prop("disabled", true);
                 }
                 if (jQuery('input[name=evaluation]:checked').val() == "1") {
-                    jQuery('input:checkbox').prop("disabled", false);
                     jQuery("#submit_button").prop("disabled", true);
-                    jQuery("#q2hide").show();
-                    jQuery("#q2text").text("どこのどんな様子が分かるか簡潔に書いてください。")
-                    jQuery("#q2ans").text("不正解...個人の感想が述べられているだけで様子は分かりませんね");
+                    jQuery("#q2_yes").show();
+                    jQuery("#q2_no").hide();
+                    jQuery('input[name="reason[]"]').prop('checked', false)
                     jQuery("#q3").show();
                 }
                 if (jQuery('input[name=evaluation]:checked').val() == "0") {
-                    jQuery('textarea').prop("disabled", false);
-                    jQuery('input:checkbox').prop('checked', false);
-                    jQuery('input:checkbox').prop("disabled", true);
                     jQuery("#submit_button").prop("disabled", true);
-                    jQuery("#q2hide").show();
-                    jQuery("#q2ans").text("正解！個人の感想が述べられているだけで様子は分かりませんね");
-                    jQuery("#q2text").text("いいえを選んだ理由を書いてください。（練習問題では「京都と関係がないから」「観光と関係がないから」「様子が分からないから」の中から1つ選んでください。1字でも違うと送信できません。）")
-                    jQuery("#q3").hide();
+                    jQuery("#q2_yes").hide();
+                    jQuery("#q2_no").show();
+                    jQuery('input[name="category[]"]').prop('checked', false)
+                    jQuery("#q3").show();
+                    jQuery("#q2_hint").show();
                 }
-                if (jQuery('input[name=evaluation]:checked').val() == "0" && jQuery("#check_q2").val() == "様子が分からないから") {
+                if (jQuery('input[name=evaluation]:checked').val() == "0" && jQuery("#q2click_scene").prop('checked')==true) {
                     jQuery("#submit_button").prop("disabled", false);
                 }
             }

@@ -30,31 +30,42 @@
         <span id="q1click_nan"><input type="radio" name="evaluation" value="2">&nbsp;ツイートが表示されない</span>
       </span>
       <br><br>
-      <div id="q2hide">
-        <p>Q2：<span id="q2text"></span></p>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="q2"><span id="q2_keypress"><textarea id="check_q2" name="message" rows="5" cols="50"></textarea></span></span>
+      <div id="q2_yes">
+        <p>Q2：ツイートのジャンルはなんですか?（当てはまるものすべてにチェックを入れてください）</p>
+        <div id='check_q2_yes'>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <input id="q2click_weather" type="checkbox" name="category[]" value="0">&nbsp;天気
+          &nbsp;&nbsp;
+          <input id="q2click_crowd" type="checkbox" name="category[]" value="1">&nbsp;混雑
+          &nbsp;&nbsp;
+          <input id="q2click_scenery" type="checkbox" name="category[]" value="2">&nbsp;景観
+          &nbsp;&nbsp;
+          <input id="q2click_traffic" type="checkbox" name="category[]" value="3">&nbsp;交通
+          &nbsp;&nbsp;
+          <input id="q2click_ivent" type="checkbox" name="category[]" value="4">&nbsp;イベント
+          &nbsp;&nbsp;
+          <input id="q2click_meal" type="checkbox" name="category[]" value="5">&nbsp;食事
+          &nbsp;&nbsp;
+          <input id="q2click_spot" type="checkbox" name="category[]" value="6">&nbsp;観光地
+          &nbsp;&nbsp;
+          <input id="q2click_other" type="checkbox" name="category[]" value="7">&nbsp;その他
+        </div>
+      </div>
+      <div id="q2_no">
+        <p>Q2：いいえと答えた理由はなんですか?（当てはまるものすべてにチェックを入れてください）</p>
+        <div id='check_q2_no'>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_kyoto" type="checkbox" name="reason[]" value="0">&nbsp;京都と関係がないから<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_sightseeing" type="checkbox" name="reason[]" value="1">&nbsp;観光と関係がないから<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_scene" type="checkbox" name="reason[]" value="2">&nbsp;様子が分からないから<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_old" type="checkbox" name="reason[]" value="3">&nbsp;去年の7月10日以前のツイートだから<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_bot" type="checkbox" name="reason[]" value="4">&nbsp;宣伝や広告、botだから<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="q2click_other2" type="checkbox" name="reason[]" value="5">&nbsp;その他
+        </div>
       </div>
       <br>
       <div id="q3">
-        <p>Q3：ツイートのジャンルはなんですか?（当てはまるものすべてにチェックを入れてください）</p>
-        <div id='check_q3'>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <input id="q3click_weather" type="checkbox" name="category[]" value="0">&nbsp;天気
-          &nbsp;&nbsp;
-          <input id="q3click_crowd" type="checkbox" name="category[]" value="1">&nbsp;混雑
-          &nbsp;&nbsp;
-          <input id="q3click_scenery" type="checkbox" name="category[]" value="2">&nbsp;景観
-          &nbsp;&nbsp;
-          <input id="q3click_traffic" type="checkbox" name="category[]" value="3">&nbsp;交通
-          &nbsp;&nbsp;
-          <input id="q3click_ivent" type="checkbox" name="category[]" value="4">&nbsp;イベント
-          &nbsp;&nbsp;
-          <input id="q3click_meal" type="checkbox" name="category[]" value="5">&nbsp;食事
-          &nbsp;&nbsp;
-          <input id="q3click_spot" type="checkbox" name="category[]" value="6">&nbsp;観光地
-          &nbsp;&nbsp;
-          <input id="q3click_other" type="checkbox" name="category[]" value="7">&nbsp;その他
-        </div>
+        <p>Q3：特筆すべきこと（オプション）</p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea id="q3_keypress" name="option" rows="5" cols="50"></textarea>
       </div>
       <br>
       <p><input type="submit" id="submit_button" class="btn btn-primary btn-lg"></p>
@@ -69,7 +80,7 @@
     <li><font color="red">京都</font>に関するツイートかどうか。</li>
     <li>観光地や駅など<font color="red">観光に関する場所</font>かどうか。</li>
     <li><font color="red">様子</font>が分かるかどうか。</li>
-    <li><font color="red">2016年7月10日以降</font>に投稿されたツイートかどうか。</li>
+    <li><font color="red">去年の7月10日以降</font>に投稿されたツイートかどうか。</li>
   </ul>
   <li>京都の様子が分からないツイートと判断された場合は、その理由を記述してください。</li>
   <li>京都の様子が分ツイートと判断された場合は、ツイートのジャンルを選択肢の中から当てはまるものすべてを選んでください。</li>
@@ -85,7 +96,8 @@
         var time_limit = 60 * 1000 * 10; //10min
         var timer_id = setTimeout(timer_func, time_limit);
 
-        jQuery("#q2hide").hide();
+        jQuery("#q2_yes").hide();
+        jQuery("#q2_no").hide();
         jQuery("#q3").hide();
         jQuery("#submit_button").prop("disabled", true);
 
@@ -95,31 +107,29 @@
                 timer_id = setTimeout(timer_func, time_limit);
                 if (jQuery('input[name=evaluation]:checked').val() == "2") {
                     jQuery("#submit_button").prop("disabled", false);
-                    jQuery("#check_q2").val("");
-                    jQuery("#q2hide").hide();
+                    jQuery("#q2_yes").hide();
+                    jQuery("#q2_no").hide();
                     jQuery('input:checkbox').prop('checked', false);
                     jQuery("#q3").hide();
                 }
                 if (jQuery('input[name=evaluation]:checked').val() == "1") {
-                    jQuery('input:checkbox').prop("disabled", false);
                     jQuery("#submit_button").prop("disabled", true);
-                    jQuery("#q2hide").show();
-                    jQuery("#q2text").text("どこのどんな様子が分かるか簡潔に書いてください。")
+                    jQuery("#q2_yes").show();
+                    jQuery("#q2_no").hide();
+                    jQuery('input[name="reason[]"]').prop('checked', false)
                     jQuery("#q3").show();
                 }
                 if (jQuery('input[name=evaluation]:checked').val() == "0") {
-                    jQuery('textarea').prop("disabled", false);
-                    jQuery('input:checkbox').prop('checked', false);
-                    jQuery('input:checkbox').prop("disabled", true);
                     jQuery("#submit_button").prop("disabled", true);
-                    jQuery("#q2hide").show();
-                    jQuery("#q2text").text("いいえを選んだ理由を書いてください。")
-                    jQuery("#q3").hide();
+                    jQuery("#q2_yes").hide();
+                    jQuery("#q2_no").show();
+                    jQuery('input[name="category[]"]').prop('checked', false)
+                    jQuery("#q3").show();
                 }
-                if (jQuery('input[name=evaluation]:checked').val() == "1" && jQuery("#check_q2").val().length > 0 && jQuery("#check_q3 :checkbox:checked").length > 0) {
+                if (jQuery('input[name=evaluation]:checked').val() == "1" && jQuery("#check_q2_yes :checkbox:checked").length > 0) {
                     jQuery("#submit_button").prop("disabled", false);
                 }
-                if (jQuery('input[name=evaluation]:checked').val() == "0" && jQuery("#check_q2").val().length > 0) {
+                if (jQuery('input[name=evaluation]:checked').val() == "0" && jQuery("#check_q2_no :checkbox:checked").length > 0) {
                     jQuery("#submit_button").prop("disabled", false);
                 }
             }
@@ -243,7 +253,399 @@
             }
         });
 
-        jQuery('#q2').on({
+        jQuery('#q2click_weather').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "30"
+                } else {
+                    val = "40"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "30"
+                } else {
+                    val = "40"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_crowd').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "31"
+                } else {
+                    val = "41"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "31"
+                } else {
+                    val = "41"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_scenery').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "32"
+                } else {
+                    val = "42"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "32"
+                } else {
+                    val = "42"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_traffic').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "33"
+                } else {
+                    val = "43"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "33"
+                } else {
+                    val = "43"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_ivent').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "34"
+                } else {
+                    val = "44"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "34"
+                } else {
+                    val = "44"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_meal').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "35"
+                } else {
+                    val = "45"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "35"
+                } else {
+                    val = "45"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_spot').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "36"
+                } else {
+                    val = "46"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "36"
+                } else {
+                    val = "46"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_other').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "37"
+                } else {
+                    val = "47"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "37"
+                } else {
+                    val = "47"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_kyoto').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "50"
+                } else {
+                    val = "60"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "50"
+                } else {
+                    val = "60"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_sightseeing').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "51"
+                } else {
+                    val = "61"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "51"
+                } else {
+                    val = "61"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_scene').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "52"
+                } else {
+                    val = "62"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "52"
+                } else {
+                    val = "62"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_old').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "53"
+                } else {
+                    val = "63"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "53"
+                } else {
+                    val = "63"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_bot').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "54"
+                } else {
+                    val = "64"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "54"
+                } else {
+                    val = "64"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q2click_other2').on({
+            'click': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "55"
+                } else {
+                    val = "65"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+
+            },
+            'tap': function () {
+                if (jQuery(this).is(':checked')) {
+                    val = "55"
+                } else {
+                    val = "65"
+                }
+                jQuery.ajax({
+                    url: '<%= user_behavior_click_url %>',
+                    type: "GET",
+                    data: {state: val}
+                });
+            }
+        });
+
+        jQuery('#q3').on({
             'focusin': function () {
                 jQuery.ajax({
                     url: '<%= user_behavior_click_url %>',
@@ -268,7 +670,7 @@
             }
         });
 
-        jQuery('#q2_keypress').one({
+        jQuery('#q3_keypress').one({
             'keydown': function () {
                 jQuery.ajax({
                     url: '<%= user_behavior_click_url %>',
@@ -276,230 +678,6 @@
                     data: {state: 21}
                 });
 
-            }
-        });
-
-        jQuery('#q3click_weather').on({
-            'click': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "30"
-                } else {
-                    val = "40"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-
-            },
-            'tap': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "30"
-                } else {
-                    val = "40"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-            }
-        });
-
-        jQuery('#q3click_crowd').on({
-            'click': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "31"
-                } else {
-                    val = "41"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-
-            },
-            'tap': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "31"
-                } else {
-                    val = "41"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-            }
-        });
-
-        jQuery('#q3click_scenery').on({
-            'click': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "32"
-                } else {
-                    val = "42"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-
-            },
-            'tap': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "32"
-                } else {
-                    val = "42"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-            }
-        });
-
-        jQuery('#q3click_traffic').on({
-            'click': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "33"
-                } else {
-                    val = "43"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-
-            },
-            'tap': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "33"
-                } else {
-                    val = "43"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-            }
-        });
-
-        jQuery('#q3click_ivent').on({
-            'click': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "34"
-                } else {
-                    val = "44"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-
-            },
-            'tap': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "34"
-                } else {
-                    val = "44"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-            }
-        });
-
-        jQuery('#q3click_meal').on({
-            'click': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "35"
-                } else {
-                    val = "45"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-
-            },
-            'tap': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "35"
-                } else {
-                    val = "45"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-            }
-        });
-
-        jQuery('#q3click_spot').on({
-            'click': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "36"
-                } else {
-                    val = "46"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-
-            },
-            'tap': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "36"
-                } else {
-                    val = "46"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-            }
-        });
-
-        jQuery('#q3click_other').on({
-            'click': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "37"
-                } else {
-                    val = "47"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
-
-            },
-            'tap': function () {
-                if (jQuery(this).is(':checked')) {
-                    val = "37"
-                } else {
-                    val = "47"
-                }
-                jQuery.ajax({
-                    url: '<%= user_behavior_click_url %>',
-                    type: "GET",
-                    data: {state: val}
-                });
             }
         });
 

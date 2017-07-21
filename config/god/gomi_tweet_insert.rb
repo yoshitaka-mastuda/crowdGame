@@ -38,6 +38,7 @@ loop do
       tweet.twitter_user_id = s.user.id
       tweet.user_id = 99999
       tweet.auto_flag = 1
+      tweet.version = 3
       tweet.created_at = Time.now
       tweet.updated_at = Time.now
       if Tweet.find_by_tweet_id(tweet.tweet_id).nil? then
@@ -52,7 +53,7 @@ loop do
     end
   end
 
-  sleep 10
+  sleep 30
 
 
 end

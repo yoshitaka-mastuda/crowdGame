@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170719121239) do
+ActiveRecord::Schema.define(version: 20170721054154) do
 
   create_table "behaviors", force: :cascade do |t|
     t.integer "user_id", precision: 38
@@ -46,6 +46,13 @@ ActiveRecord::Schema.define(version: 20170719121239) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "reasons", force: :cascade do |t|
+    t.integer "reason_id", precision: 38
+    t.text "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "states", force: :cascade do |t|
     t.integer "state_id", precision: 38
     t.text "state_name"
@@ -69,8 +76,8 @@ ActiveRecord::Schema.define(version: 20170719121239) do
     t.boolean "accept", default: false
     t.boolean "reject", default: false
     t.boolean "delete_flag", default: false
-    t.integer "delete_count", precision: 38
-    t.integer "version", precision: 38
+    t.integer "delete_count", precision: 38, default: 0
+    t.integer "version", precision: 38, default: 0
     t.index ["tweet_id"], name: "index_tweets_on_tweet_id", unique: true
   end
 
@@ -117,6 +124,7 @@ ActiveRecord::Schema.define(version: 20170719121239) do
     t.integer "evaluation_point", precision: 38, default: 0
     t.integer "total_point", precision: 38, default: 0
     t.integer "tutorial", precision: 38, default: 0
+    t.integer "evaluation_count3", precision: 38, default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "i_users_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
@@ -129,6 +137,13 @@ ActiveRecord::Schema.define(version: 20170719121239) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "vote_reasons", force: :cascade do |t|
+    t.integer "vote_id", precision: 38
+    t.integer "reason_id", precision: 38
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "votes", force: :cascade do |t|
     t.integer "user_id", precision: 38
     t.integer "tweet_id", precision: 38
@@ -136,7 +151,8 @@ ActiveRecord::Schema.define(version: 20170719121239) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "message"
-    t.integer "version", precision: 38
+    t.integer "version", precision: 38, default: 0
+    t.text "option"
     t.index ["tweet_id"], name: "index_votes_on_tweet_id"
     t.index ["user_id", "tweet_id"], name: "i_votes_user_id_tweet_id", unique: true
     t.index ["user_id"], name: "index_votes_on_user_id"

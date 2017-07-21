@@ -12,8 +12,8 @@ class TweetInsertController < ApplicationController
       @tweet = Tweet.new
       current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
       current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
-      current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
+      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2 + current_user.evaluation_count3
+      current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
       current_user.total_point = current_user.accept_point + current_user.evaluation_point
       current_user.save
 
@@ -26,8 +26,7 @@ class TweetInsertController < ApplicationController
       end
       Tweet.where(user_id: current_user.id, reject: 1, notice_flag: 0).each do |t|
         @reason = Vote.where(tweet_id: t.tweet_id).first
-        flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」が「#{@reason.message}」などの理由で非承認となりました。新しく全部で#{r_count}件が非承認です。"
-        flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」など#{r_count}件が拒否されました。"
+        flash.now[:alert] = "あなたが収集したツイート「#{t.text} 」など#{r_count}件が非承認となりました。収集ポイントをクリックすると非承認理由が確認できます。"
         t.notice_flag=1
         t.save
       end
@@ -81,7 +80,7 @@ class TweetInsertController < ApplicationController
       tweet.user_id = current_user.id
       tweet.created_at = params[:tweet][:created_at]
       tweet.auto_flag = 0
-      tweet.version = 2
+      tweet.version = 3
 
       user.save if TwitterUser.find_by_twitter_user_id(user.twitter_user_id).nil?
       tweet.save if Tweet.find_by_tweet_id(tweet.tweet_id).nil?
@@ -89,8 +88,8 @@ class TweetInsertController < ApplicationController
       current_user.tweet_count = Tweet.where(:user_id => current_user.id).count
       current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
       current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
-      current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
+      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2  + current_user.evaluation_count3
+      current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
       current_user.total_point = current_user.accept_point + current_user.evaluation_point
       current_user.save
 
@@ -101,23 +100,28 @@ class TweetInsertController < ApplicationController
   def confirm
     current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
     current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
+    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2  + current_user.evaluation_count3
     current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
-    current_user.total_point = current_user.accept_point + current_user.evaluation_point
+    current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
     current_user.save
     @accept_tweets = Tweet.where(:user_id => current_user.id, :accept => true).order('updated_at DESC').all
-    @reject_tweets = Tweet.where(:user_id => current_user.id, :reject => true).order('updated_at DESC').all
+    @reject_tweets_kyoto = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_reasons r ON v.id = r.vote_id WHERE t.user_id = :user AND t.reject=1 AND reason_id = 0',{user:current_user.id}]).uniq {|tweet| tweet.tweet_id}
+    @reject_tweets_sightseeing = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_reasons r ON v.id = r.vote_id WHERE t.user_id = :user AND t.reject=1 AND reason_id = 1',{user:current_user.id}]).uniq {|tweet| tweet.tweet_id}
+    @reject_tweets_scene = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_reasons r ON v.id = r.vote_id WHERE t.user_id = :user AND t.reject=1 AND reason_id = 2',{user:current_user.id}]).uniq {|tweet| tweet.tweet_id}
+    @reject_tweets_old = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_reasons r ON v.id = r.vote_id WHERE t.user_id = :user AND t.reject=1 AND reason_id = 3',{user:current_user.id}]).uniq {|tweet| tweet.tweet_id}
+    @reject_tweets_bot = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_reasons r ON v.id = r.vote_id WHERE t.user_id = :user AND t.reject=1 AND reason_id = 4',{user:current_user.id}]).uniq {|tweet| tweet.tweet_id}
+    @reject_tweets_other = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_reasons r ON v.id = r.vote_id WHERE t.user_id = :user AND t.reject=1 AND reason_id = 5',{user:current_user.id}]).uniq {|tweet| tweet.tweet_id}
   end
+
 
   def pending
     current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
     current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2
+    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2  + current_user.evaluation_count3
     current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
-    current_user.total_point = current_user.accept_point + current_user.evaluation_point
+    current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
     current_user.save
-    @accept_tweets = Tweet.where(:user_id => current_user.id, :pending => true, :reject_count => 0).order('updated_at DESC').all
-    @reject_tweets = Tweet.where(:user_id => current_user.id, :pending => true, :reject_count => 1..5).order('updated_at DESC').all
+    @pending_tweets = Tweet.where(:user_id => current_user.id, :pending => true).all
   end
 
   def reason
