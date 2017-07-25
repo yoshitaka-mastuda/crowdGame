@@ -682,6 +682,13 @@
             }
         });
 
+        jQuery('#submit_button').on({
+            'click': function () {
+                jQuery(this).prop('disabled', true)
+                jQuery(this).closest('form').submit();
+            }
+        });
+
     });
 
 </script>
