@@ -5,7 +5,7 @@ class AdminController < ApplicationController
   end
 
   def user_list
-    @users = User.all.includes(:tweets).order(total_point: :desc, username: :asc)
+    @users = User.where("total_point >= 100").includes(:tweets).order(total_point: :desc, username: :asc)
     @users.each do |u|
       u.accept_count = Tweet.where(:user_id => u.id, :accept => true).count
       u.pending_count = Tweet.where(:user_id => u.id, :pending => true).count
