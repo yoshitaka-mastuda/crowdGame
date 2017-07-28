@@ -5,3 +5,9 @@
   <li><%= link_to '非承認メッセージ一覧', admin_message_path %></li>
   <li><%= link_to 'カテゴリ一覧', admin_category_index_path %></li>
 </ul>
+<br><br><br><br>
+<%= form_tag admin_pay_create_path do %>
+    <p><label>ユーザ名：</label><input type="text" name="name"></p>
+    <p><label>ポイント：</label><input type="number" name="point"></p>
+    <p><input type="submit" class="btn btn-primary btn-md"></p>
+<% end %>
