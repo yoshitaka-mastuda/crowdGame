@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   resources :tweet_insert
 
+  post 'admin/pay_create'
   get 'admin/pay'
   get 'admin/tweet'
   get 'admin/reason'

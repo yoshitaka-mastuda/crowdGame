@@ -14,7 +14,7 @@
         <li>収集ポイント: <%= @user.accept_point %></li>
         <li>評価ポイント: <%= @user.evaluation_point %></li>
         <li>合計ポイント: <%= @user.total_point %></li>
-        <li>支払ポイント: <input id='pay' type="number" value=<%= @user.payment %>></li>
+        <li>支払ポイント: <%= @user.payment %></li>
         <li>未払ポイント: <%= @user.rest_point %></li>
       </ul>
     </div>
@@ -81,11 +81,10 @@
         jQuery('#s_button').on({
             'click': function () {
                 str = jQuery('#memo').val()
-                point = jQuery('#pay').val()
                 jQuery.ajax({
                     url: '<%= admin_pay_url %>',
                     type: "GET",
-                    data: {memo: str, pay: point, user:<%= @user.id %>}
+                    data: {memo: str, user:<%= @user.id %>}
                 });
             }
         });

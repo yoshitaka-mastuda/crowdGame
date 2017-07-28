@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170721054154) do
+ActiveRecord::Schema.define(version: 20170728075214) do
 
   create_table "behaviors", force: :cascade do |t|
     t.integer "user_id", precision: 38
@@ -42,6 +42,13 @@ ActiveRecord::Schema.define(version: 20170721054154) do
   create_table "doing_lists", force: :cascade do |t|
     t.integer "user_id", precision: 38
     t.integer "tweet_id", precision: 38
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer "user_id", precision: 38
+    t.integer "point", precision: 38
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

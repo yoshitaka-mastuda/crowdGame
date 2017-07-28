@@ -5,8 +5,7 @@ class AdminController < ApplicationController
   end
 
   def user_list
-    @users = User.all.includes(:tweets).order(:username)
-
+    @users = User.all.includes(:tweets).order(total_point: :desc, username: :asc)
     @users.each do |u|
       u.accept_count = Tweet.where(:user_id => u.id, :accept => true).count
       u.pending_count = Tweet.where(:user_id => u.id, :pending => true).count
@@ -34,9 +33,17 @@ class AdminController < ApplicationController
 
   def pay
     @user = User.find(params[:user])
-    @user.payment = params[:pay]
     @user.memo = params[:memo]
     @user.save
+  end
+
+  def pay_create
+    @user = User.where(:username => params[:name]).first(1)[0]
+    @pay_point = params[:point]
+    Payment.create(user_id: @user.id, point: @pay_point)
+    @user.payment = Payment.where(:user_id => @user.id).sum(:point)
+    @user.save
+    redirect_to :action => 'user_list'
   end
 
   def tweet

@@ -1,6 +1,12 @@
 <br><br>
 <%= link_to '戻る', admin_path %>
-
+<br><br><br><br>
+<%= form_tag admin_pay_create_path do %>
+    <p><label>ユーザ名：</label><input type="text" name="name"></p>
+    <p><label>ポイント：</label><input type="number" name="point"></p>
+    <p><input type="submit" class="btn btn-primary btn-md"></p>
+<% end %>
+<br>
 <h1>ワーカーリスト</h1>
 <table class="table table-bordered table-responsive table-striped">
   <tr>
@@ -18,19 +24,19 @@
     <th>未払ポイント</th>
   </tr>
   <% @users.each do |u| %>
-  <tr>
-    <td><%= link_to u.username, {:controller => 'admin', :action => 'user_show', :user_id => u.id} %></td>
-    <td><%= u.ranking %></td>
-    <td><%= u.tweet_count %></td>
-    <td><%= u.accept_count %></td>
-    <td><%= u.reject_count %></td>
-    <td><%= u.pending_count %></td>
-    <td><%= u.evaluation_count %></td>
-    <td><%= u.accept_point %></td>
-    <td><%= u.evaluation_point %></td>
-    <td><%= u.total_point %></td>
-    <td><%= u.payment %></td>
-    <td><%= u.rest_point %></td>
-  </tr>
+      <tr>
+        <td><%= link_to u.username, {:controller => 'admin', :action => 'user_show', :user_id => u.id} %></td>
+        <td><%= u.ranking %></td>
+        <td><%= u.tweet_count %></td>
+        <td><%= u.accept_count %></td>
+        <td><%= u.reject_count %></td>
+        <td><%= u.pending_count %></td>
+        <td><%= u.evaluation_count %></td>
+        <td><%= u.accept_point %></td>
+        <td><%= u.evaluation_point %></td>
+        <td><%= u.total_point %></td>ß
+        <td><%= u.payment %></td>
+        <td><%= u.rest_point %></td>
+      </tr>
   <% end %>
 </table>
