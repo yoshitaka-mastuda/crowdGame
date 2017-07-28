@@ -43,7 +43,7 @@ class AdminController < ApplicationController
     Payment.create(user_id: @user.id, point: @pay_point)
     @user.payment = Payment.where(:user_id => @user.id).sum(:point)
     @user.save
-    redirect_to :action => 'user_list'
+    redirect_to :action => 'index'
   end
 
   def tweet
