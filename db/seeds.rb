@@ -21,7 +21,7 @@ Reason.create(:reason_id => '0', :name => '京都と関係がないから')
 Reason.create(:reason_id => '1', :name => '観光と関係がないから')
 Reason.create(:reason_id => '2', :name => '様子が分からないから')
 Reason.create(:reason_id => '3', :name => '去年の7月10日以前のツイートだから')
-Reason.create(:reason_id => '4', :name => '去年の7月10日以前のツイートだから')
+Reason.create(:reason_id => '4', :name => '宣伝や広告、botだから')
 Reason.create(:reason_id => '5', :name => 'その他')
 
 State.create(:state_id => '0', :state_name => 'ページ読み込み完了')

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728075214) do
+ActiveRecord::Schema.define(version: 20170802073459) do
 
   create_table "behaviors", force: :cascade do |t|
     t.integer "user_id", precision: 38
@@ -58,6 +58,15 @@ ActiveRecord::Schema.define(version: 20170728075214) do
     t.text "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.text "data"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
+    t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
   create_table "states", force: :cascade do |t|

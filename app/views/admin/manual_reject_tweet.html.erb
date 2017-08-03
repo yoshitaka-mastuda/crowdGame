@@ -1,0 +1,20 @@
+<br><br>
+<%= link_to '戻る', admin_tweet_path %>
+<br><br>
+<h2>不適切手動ツイート（最新100件）</h2>
+<table class="table table-bordered table-responsive table-striped">
+  <tr>
+    <th>ツイート</th>
+    <th>適切</th>
+    <th>不適切</th>
+    <th>非表示</th>
+  </tr>
+  <% @tweets.each do |t| %>
+      <tr>
+        <td><%= t.text %></td>
+        <td><%= t.accept_count %></td>
+        <td><%= t.reject_count %></td>
+        <td><%= t.delete_count %></td>
+      </tr>
+  <% end %>
+</table>

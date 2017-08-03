@@ -47,12 +47,242 @@ class AdminController < ApplicationController
   end
 
   def tweet
-    @manual_accept = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC'])
-    @manual_reject = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC'])
-    @manual_pending = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 0 ORDER BY t.votes_count DESC'])
-    @auto_accept = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC'])
-    @auto_reject = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC'])
-    @auto_pending = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 1 ORDER BY t.votes_count DESC'])
+    @manual_accept = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC']).count
+    @manual_reject = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC']).count
+    @manual_pending = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 0 ORDER BY t.votes_count DESC']).count
+    @auto_accept = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC']).count
+    @auto_reject = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC']).count
+    @auto_pending = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 1 ORDER BY t.votes_count DESC']).count
+
+    @category_weather0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=0']).count
+    @category_crowd0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=1']).count
+    @category_scenery0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=2']).count
+    @category_trans0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=3']).count
+    @category_ivent0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=4']).count
+    @category_meal0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=5']).count
+    @category_spot0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=6']).count
+    @category_other0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=7']).count
+    @category_weather1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=0']).count
+    @category_crowd1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=1']).count
+    @category_scenery1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=2']).count
+    @category_trans1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=3']).count
+    @category_ivent1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=4']).count
+    @category_meal1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=5']).count
+    @category_spot1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=6']).count
+    @category_other1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=7']).count
+    @category_weather0_rate = (@category_weather0.to_f / @manual_accept.to_f).round(3)
+    @category_crowd0_rate = (@category_crowd0.to_f / @manual_accept.to_f).round(3)
+    @category_scenery0_rate = (@category_scenery0.to_f / @manual_accept.to_f).round(3)
+    @category_trans0_rate = (@category_trans0.to_f / @manual_accept.to_f).round(3)
+    @category_ivent0_rate = (@category_ivent0.to_f / @manual_accept.to_f).round(3)
+    @category_meal0_rate = (@category_meal0.to_f / @manual_accept.to_f).round(3)
+    @category_spot0_rate = (@category_spot0.to_f / @manual_accept.to_f).round(3)
+    @category_other0_rate = (@category_other0.to_f / @manual_accept.to_f).round(3)
+    @category_weather1_rate = (@category_weather1.to_f / @auto_accept.to_f).round(3)
+    @category_crowd1_rate = (@category_weather1.to_f / @auto_accept.to_f).round(3)
+    @category_scenery1_rate = (@category_scenery1.to_f / @auto_accept.to_f).round(3)
+    @category_trans1_rate = (@category_trans1.to_f / @auto_accept.to_f).round(3)
+    @category_ivent1_rate = (@category_ivent1.to_f / @auto_accept.to_f).round(3)
+    @category_meal1_rate = (@category_meal1.to_f / @auto_accept.to_f).round(3)
+    @category_spot1_rate = (@category_spot1.to_f / @auto_accept.to_f).round(3)
+    @category_other1_rate = (@category_other1.to_f / @auto_accept.to_f).round(3)
+
+    @reason_kyoto0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=0']).count
+    @reason_sightseeing0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=1']).count
+    @reason_scenery0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=2']).count
+    @reason_old0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=3']).count
+    @reason_bot0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=4']).count
+    @reason_other0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=5']).count
+    @reason_kyoto1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=0']).count
+    @reason_sightseeing1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=1']).count
+    @reason_scenery1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=2']).count
+    @reason_old1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=3']).count
+    @reason_bot1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=4']).count
+    @reason_other1 = Tweet.find_by_sql(['SELECT t.tweet_id, c.reason_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=5']).count
+    @reason_kyoto0_rate = (@reason_kyoto0.to_f / @manual_reject.to_f).round(3)
+    @reason_sightseeing0_rate = (@reason_sightseeing0.to_f / @manual_reject.to_f).round(3)
+    @reason_scenery0_rate = (@reason_scenery0.to_f / @manual_reject.to_f).round(3)
+    @reason_old0_rate = (@reason_old0.to_f / @manual_reject.to_f).round(3)
+    @reason_bot0_rate = (@reason_bot0.to_f / @manual_reject.to_f).round(3)
+    @reason_other0_rate = (@reason_other0.to_f / @manual_reject.to_f).round(3)
+    @reason_kyoto1_rate = (@reason_kyoto1.to_f / @auto_reject.to_f).round(3)
+    @reason_sightseeing1_rate = (@reason_sightseeing1.to_f / @auto_reject.to_f).round(3)
+    @reason_scenery1_rate = (@reason_scenery1.to_f / @auto_reject.to_f).round(3)
+    @reason_old1_rate = (@reason_old1.to_f / @auto_reject.to_f).round(3)
+    @reason_bot1_rate = (@reason_bot1.to_f / @auto_reject.to_f).round(3)
+    @reason_other1_rate = (@reason_other1.to_f / @auto_reject.to_f).round(3)
+  end
+
+  def manual_tweet
+    @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.auto_flag=0 ORDER BY t.created_at DESC'])
+  end
+
+  def manual_pending_tweet
+    @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.auto_flag=0 AND t.pending=1 ORDER BY t.created_at DESC'])
+  end
+
+  def manual_accept_tweet
+    @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.auto_flag=0 AND t.accept=1 ORDER BY t.updated_at DESC']).first(100)
+  end
+
+  def manual_reject_tweet
+    @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.auto_flag=0 AND t.reject=1 ORDER BY t.updated_at DESC']).first(100)
+  end
+
+  def manual_weather_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=0']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_crowd_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=1']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_scenery_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=2']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_trans_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=3']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_ivent_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=4']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_meal_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=5']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_spot_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=6']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_other_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=0']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_kyoto_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=0']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_sightseeing_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=1']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_sceneryr_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=2']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_old_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=3']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_bot_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=4']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def manual_otherr_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=0 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=5']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_tweet
+    @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.auto_flag=1 ORDER BY t.created_at DESC'])
+  end
+
+  def auto_pending_tweet
+    @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.auto_flag=1 AND t.pending=1 ORDER BY t.created_at DESC'])
+  end
+
+  def auto_accept_tweet
+    @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.auto_flag=1 AND t.accept=1 ORDER BY t.updated_at DESC']).first(100)
+  end
+
+  def auto_reject_tweet
+    @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.auto_flag=1 AND t.reject=1 ORDER BY t.updated_at DESC']).first(100)
+  end
+
+  def auto_weather_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=0']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_crowd_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=1']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_scenery_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=2']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_trans_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=3']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_ivent_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=4']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_meal_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=5']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_spot_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=6']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_other_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=1 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=0']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_kyoto_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=0']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_sightseeing_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=1']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_sceneryr_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=2']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_old_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=3']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_bot_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=4']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
+  end
+
+  def auto_otherr_tweet
+    @tweets_id = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_reasons c ON v.id=c.vote_id WHERE t.reject=1 AND auto_flag=1 GROUP BY t.tweet_id, c.reason_id HAVING count(*)>2 AND c.reason_id=5']).first(100).pluck(:tweet_id)
+    @tweets = Tweet.where(tweet_id: @tweets_id)
   end
 
   def reason

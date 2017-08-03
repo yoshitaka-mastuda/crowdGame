@@ -1,121 +1,155 @@
 <br><br>
 <%= link_to '戻る', admin_path %>
-
+<br><br>
 <h2>手動ツイート</h2>
-<p>全ツイート数：<%= @manual_accept.count + @manual_reject.count + @manual_pending.count %></p>
-<p>審査中ツイート数：<%= @manual_pending.count %></p>
-<p>適切ツイート数：<%= @manual_accept.count %></p>
-<p>不適切ツイート数：<%= @manual_reject.count %></p>
-<h3>手動ツイート一覧（適切）</h3>
 <table class="table table-bordered table-responsive table-striped">
   <tr>
-    <th>ツイート</th>
-    <th>適切数</th>
-    <th>不適切数</th>
-    <th>評価数</th>
+    <th><%= link_to '全ツイート', admin_manual_tweet_path %></th>
+    <th><%= link_to '審査中ツイート', admin_manual_pending_tweet_path %></th>
+    <th><%= link_to '適切ツイート', admin_manual_accept_tweet_path %></th>
+    <th><%= link_to '不適切ツイート', admin_manual_reject_tweet_path %></th>
   </tr>
-  <% @manual_accept.each do |t| %>
-      <tr>
-        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
-        <td><%= t.accept_count %></td>
-        <td><%= t.reject_count %></td>
-        <td><%= t.votes_count %></td>
-      </tr>
-  <% end %>
+  <tr>
+    <td><%= @manual_accept + @manual_reject + @manual_pending %></td>
+    <td><%= @manual_pending %></td>
+    <td><%= @manual_accept %></td>
+    <td><%= @manual_reject %></td>
+  </tr>
 </table>
-<h3>手動ツイート一覧（不適切）</h3>
+
 <table class="table table-bordered table-responsive table-striped">
   <tr>
-    <th>ツイート</th>
-    <th>適切数</th>
-    <th>不適切数</th>
-    <th>評価数</th>
+    <th><%= link_to '天気', admin_manual_weather_tweet_path %></th>
+    <th><%= link_to '混雑', admin_manual_crowd_tweet_path %></th>
+    <th><%= link_to '景観', admin_manual_scenery_tweet_path %></th>
+    <th><%= link_to '交通', admin_manual_trans_tweet_path %></th>
+    <th><%= link_to 'イベント', admin_manual_ivent_tweet_path %></th>
+    <th><%= link_to '食事', admin_manual_meal_tweet_path %></th>
+    <th><%= link_to '観光地', admin_manual_spot_tweet_path %></th>
+    <th><%= link_to 'その他', admin_manual_other_tweet_path %></th>
   </tr>
-  <% @manual_reject.each do |t| %>
-      <tr>
-        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
-        <td><%= t.accept_count %></td>
-        <td><%= t.reject_count %></td>
-        <td><%= t.votes_count %></td>
-      </tr>
-  <% end %>
+  <tr>
+    <td><%= @category_weather0 %></td>
+    <td><%= @category_crowd0 %></td>
+    <td><%= @category_scenery0 %></td>
+    <td><%= @category_trans0 %></td>
+    <td><%= @category_ivent0 %></td>
+    <td><%= @category_meal0 %></td>
+    <td><%= @category_spot0 %></td>
+    <td><%= @category_other0 %></td>
+  </tr>
+  <tr>
+    <td><%= @category_weather0_rate %></td>
+    <td><%= @category_crowd0_rate %></td>
+    <td><%= @category_scenery0_rate %></td>
+    <td><%= @category_trans0_rate %></td>
+    <td><%= @category_ivent0_rate %></td>
+    <td><%= @category_meal0_rate %></td>
+    <td><%= @category_spot0_rate %></td>
+    <td><%= @category_other0_rate %></td>
+  </tr>
 </table>
 
-<h3>手動ツイート一覧（審査中）</h3>
 <table class="table table-bordered table-responsive table-striped">
   <tr>
-    <th>ツイート</th>
-    <th>適切数</th>
-    <th>不適切数</th>
-    <th>評価数</th>
+    <th><%= link_to '京都', admin_manual_kyoto_tweet_path %></th>
+    <th><%= link_to '観光', admin_manual_sightseeing_tweet_path %></th>
+    <th><%= link_to '様子', admin_manual_sceneryr_tweet_path %></th>
+    <th><%= link_to '古い', admin_manual_old_tweet_path %></th>
+    <th><%= link_to '広告', admin_manual_bot_tweet_path %></th>
+    <th><%= link_to 'その他', admin_manual_otherr_tweet_path %></th>
   </tr>
-  <% @manual_pending.each do |t| %>
-      <tr>
-        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
-        <td><%= t.accept_count %></td>
-        <td><%= t.reject_count %></td>
-        <td><%= t.votes_count %></td>
-      </tr>
-  <% end %>
+  <tr>
+    <td><%= @reason_kyoto0 %></td>
+    <td><%= @reason_sightseeing0 %></td>
+    <td><%= @reason_scenery0 %></td>
+    <td><%= @reason_old0 %></td>
+    <td><%= @reason_bot0 %></td>
+    <td><%= @reason_other0 %></td>
+  </tr>
+  <tr>
+    <td><%= @reason_kyoto0_rate %></td>
+    <td><%= @reason_sightseeing0_rate %></td>
+    <td><%= @reason_scenery0_rate %></td>
+    <td><%= @reason_old0_rate %></td>
+    <td><%= @reason_bot0_rate %></td>
+    <td><%= @reason_other0_rate %></td>
+  </tr>
 </table>
-
-<p>============================================================</p>
-
+<br><br>
 <h2>自動ツイート</h2>
-<p>全ツイート数：<%= @auto_accept.count + @auto_reject.count + @auto_pending.count %></p>
-<p>審査中ツイート数：<%= @auto_pending.count %></p>
-<p>適切ツイート数：<%= @auto_accept.count %></p>
-<p>不適切ツイート数：<%= @auto_reject.count %></p>
-<h3>自動ツイート一覧（適切）</h3>
+
 <table class="table table-bordered table-responsive table-striped">
   <tr>
-    <th>ツイート</th>
-    <th>適切数</th>
-    <th>不適切数</th>
-    <th>評価数</th>
+    <th><%= link_to '全ツイート', admin_auto_tweet_path %></th>
+    <th><%= link_to '審査中ツイート', admin_auto_pending_tweet_path %></th>
+    <th><%= link_to '適切ツイート', admin_auto_accept_tweet_path %></th>
+    <th><%= link_to '不適切ツイート', admin_auto_reject_tweet_path %></th>
   </tr>
-  <% @auto_accept.each do |t| %>
-      <tr>
-        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
-        <td><%= t.accept_count %></td>
-        <td><%= t.reject_count %></td>
-        <td><%= t.votes_count %></td>
-      </tr>
-  <% end %>
+  <tr>
+    <td><%= @auto_accept + @auto_reject + @auto_pending %></td>
+    <td><%= @auto_pending %></td>
+    <td><%= @auto_accept %></td>
+    <td><%= @auto_reject %></td>
+  </tr>
 </table>
 
-<h3>自動ツイート一覧（不適切）</h3>
 <table class="table table-bordered table-responsive table-striped">
   <tr>
-    <th>ツイート</th>
-    <th>適切数</th>
-    <th>不適切数</th>
-    <th>評価数</th>
+    <th><%= link_to '天気', admin_auto_weather_tweet_path %></th>
+    <th><%= link_to '混雑', admin_auto_crowd_tweet_path %></th>
+    <th><%= link_to '景観', admin_auto_scenery_tweet_path %></th>
+    <th><%= link_to '交通', admin_auto_trans_tweet_path %></th>
+    <th><%= link_to 'イベント', admin_auto_ivent_tweet_path %></th>
+    <th><%= link_to '食事', admin_auto_meal_tweet_path %></th>
+    <th><%= link_to '観光地', admin_auto_spot_tweet_path %></th>
+    <th><%= link_to 'その他', admin_auto_other_tweet_path %></th>
   </tr>
-  <% @auto_reject.each do |t| %>
-      <tr>
-        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
-        <td><%= t.accept_count %></td>
-        <td><%= t.reject_count %></td>
-        <td><%= t.votes_count %></td>
-      </tr>
-  <% end %>
+  <tr>
+    <td><%= @category_weather1 %></td>
+    <td><%= @category_crowd1 %></td>
+    <td><%= @category_scenery1 %></td>
+    <td><%= @category_trans1 %></td>
+    <td><%= @category_ivent1 %></td>
+    <td><%= @category_meal1 %></td>
+    <td><%= @category_spot1 %></td>
+    <td><%= @category_other1 %></td>
+  </tr>
+  <tr>
+    <td><%= @category_weather1_rate %></td>
+    <td><%= @category_crowd1_rate %></td>
+    <td><%= @category_scenery1_rate %></td>
+    <td><%= @category_trans1_rate %></td>
+    <td><%= @category_ivent1_rate %></td>
+    <td><%= @category_meal1_rate %></td>
+    <td><%= @category_spot1_rate %></td>
+    <td><%= @category_other1_rate %></td>
+  </tr>
 </table>
 
-<h3>自動ツイート一覧（審査中）</h3>
 <table class="table table-bordered table-responsive table-striped">
   <tr>
-    <th>ツイート</th>
-    <th>適切数</th>
-    <th>不適切数</th>
-    <th>評価数</th>
+    <th><%= link_to '京都', admin_auto_kyoto_tweet_path %></th>
+    <th><%= link_to '観光', admin_auto_sightseeing_tweet_path %></th>
+    <th><%= link_to '様子', admin_auto_sceneryr_tweet_path %></th>
+    <th><%= link_to '古い', admin_auto_old_tweet_path %></th>
+    <th><%= link_to '広告', admin_auto_bot_tweet_path %></th>
+    <th><%= link_to 'その他', admin_auto_otherr_tweet_path %></th>
   </tr>
-  <% @auto_pending.each do |t| %>
-      <tr>
-        <td><%= link_to admin_reason_path(t_id: t.tweet_id) do %><%= t.text %><% end %></td>
-        <td><%= t.accept_count %></td>
-        <td><%= t.reject_count %></td>
-        <td><%= t.votes_count %></td>
-      </tr>
-  <% end %>
+  <tr>
+    <td><%= @reason_kyoto1 %></td>
+    <td><%= @reason_sightseeing1 %></td>
+    <td><%= @reason_scenery1 %></td>
+    <td><%= @reason_old1 %></td>
+    <td><%= @reason_bot1 %></td>
+    <td><%= @reason_other1 %></td>
+  </tr>
+  <tr>
+    <td><%= @reason_kyoto1_rate %></td>
+    <td><%= @reason_sightseeing1_rate %></td>
+    <td><%= @reason_scenery1_rate %></td>
+    <td><%= @reason_old1_rate %></td>
+    <td><%= @reason_bot1_rate %></td>
+    <td><%= @reason_other1_rate %></td>
+  </tr>
 </table>
