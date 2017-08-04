@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170802073459) do
+ActiveRecord::Schema.define(version: 20170804042433) do
 
   create_table "behaviors", force: :cascade do |t|
     t.integer "user_id", precision: 38
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(version: 20170802073459) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "message"
     t.integer "version", precision: 38, default: 0
-    t.text "option"
+    t.text "option_answer"
     t.index ["tweet_id"], name: "index_votes_on_tweet_id"
     t.index ["user_id", "tweet_id"], name: "i_votes_user_id_tweet_id", unique: true
     t.index ["user_id"], name: "index_votes_on_user_id"
