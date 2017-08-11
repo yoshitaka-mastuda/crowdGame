@@ -7,12 +7,12 @@
 
   <% if user_signed_in? %>
       <p>初めて作業される方はチュートリアルが必須です↓</p>
-      <%= link_to '収集作業のチュートリアル', tutorial_tutorial_insert_path, class: 'btn btn-primary btn-lg' %>&nbsp;&nbsp;
-      <%= link_to '評価作業のチュートリアル', tutorial_tutorial_evaluation_path, class: 'btn btn-warning btn-lg' %>
+      <%= link_to '評価作業のチュートリアル', tutorial_tutorial_evaluation_path, class: 'btn btn-warning btn-lg' %>&nbsp;&nbsp;
+      <%= link_to '収集作業のチュートリアル', tutorial_tutorial_insert_path, class: 'btn btn-primary btn-lg' %>
       <br><br>
       <p>作業を選択してください↓<span id="no_insert">（現在、収集作業は募集していません。）</span></p>
-      <%= link_to '収集作業を始める', new_tweet_insert_path, {id: 'insert_task', class: 'btn btn-primary btn-lg'} %>&nbsp;&nbsp;
-      <%= link_to '評価作業を始める', evaluation_new_path, class: 'btn btn-warning btn-lg' %>
+      <%= link_to '評価作業を始める', evaluation_new_path, class: 'btn btn-warning btn-lg' %>&nbsp;&nbsp;
+      <%= link_to '収集作業を始める', new_tweet_insert_path, {id: 'insert_task', class: 'btn btn-primary btn-lg'} %>
       <br><br>
       <p>ポイントの説明や申請方法の確認↓</p>
       <%= link_to 'ポイントマニュアル', home_point_manual_path, class: 'btn btn-success btn-lg' %>&nbsp;&nbsp;
