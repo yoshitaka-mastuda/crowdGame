@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170804042433) do
+ActiveRecord::Schema.define(version: 20170817051321) do
 
   create_table "behaviors", force: :cascade do |t|
     t.integer "user_id", precision: 38
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 20170804042433) do
     t.integer "total_point", precision: 38, default: 0
     t.integer "tutorial", precision: 38, default: 0
     t.integer "evaluation_count3", precision: 38, default: 0
+    t.integer "evaluation_count4", precision: 38, default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "i_users_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true

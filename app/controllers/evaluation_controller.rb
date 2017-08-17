@@ -11,9 +11,9 @@ class EvaluationController < ApplicationController
       else
         current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
         current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-        current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2 + current_user.evaluation_count3
+        current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2 + current_user.evaluation_count3 + current_user.evaluation_count4
         current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
-        current_user.evaluation_point = current_user.evaluation_count*1 + current_user.evaluation_count2*1 + current_user.evaluation_count3*1
+        current_user.evaluation_point = current_user.evaluation_count*1 + current_user.evaluation_count2*1 + current_user.evaluation_count3*1 + current_user.evaluation_count4*1
         current_user.total_point = current_user.accept_point + current_user.evaluation_point
         current_user.save
         a_count = Tweet.where(user_id: current_user.id, accept: 1, notice_flag: 0).count
@@ -34,8 +34,8 @@ class EvaluationController < ApplicationController
         if DoingList.where(user_id: current_user.id).length > 0 then
           t_id = DoingList.where(user_id: current_user.id)[0].tweet_id
           @tweet = Tweet.where(tweet_id: t_id)[0]
-        elsif Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id AND v.user_id = :user LEFT OUTER JOIN doing_lists d ON t.tweet_id = d.tweet_id WHERE t.user_id != :user AND t.votes_count < 5 AND v.user_id IS NULL AND d.user_id IS NULL AND t.delete_flag = 0 ORDER BY t.votes_count DESC', {user: current_user.id}]).length > 0 then
-          @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id AND v.user_id = :user LEFT OUTER JOIN doing_lists d ON t.tweet_id = d.tweet_id WHERE t.user_id != :user AND t.votes_count < 5 AND v.user_id IS NULL AND d.user_id IS NULL AND t.delete_flag = 0 ORDER BY t.votes_count DESC', {user: current_user.id}]).first(5)
+        elsif Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id AND v.user_id = :user LEFT OUTER JOIN doing_lists d ON t.tweet_id = d.tweet_id WHERE t.user_id != :user AND t.votes_count < 10 AND v.user_id IS NULL AND d.user_id IS NULL AND t.delete_flag = 0 ORDER BY t.votes_count ASC', {user: current_user.id}]).length > 0 then
+          @tweets = Tweet.find_by_sql(['SELECT t.* FROM tweets t LEFT OUTER JOIN votes v ON t.tweet_id = v.tweet_id AND v.user_id = :user LEFT OUTER JOIN doing_lists d ON t.tweet_id = d.tweet_id WHERE t.user_id != :user AND t.votes_count < 10 AND v.user_id IS NULL AND d.user_id IS NULL AND t.delete_flag = 0 ORDER BY t.votes_count ASC', {user: current_user.id}]).first(10)
           @tweet = @tweets[rand(@tweets.length)]
           DoingList.create(user_id: current_user.id, tweet_id: @tweet.tweet_id)
           DoingList.all.each do |c|
@@ -45,7 +45,7 @@ class EvaluationController < ApplicationController
             end
           end
         else
-          flash.now[:alert] = '評価できるツイートがありません。収集作業を行なってください。'
+          flash.now[:alert] = '評価できるツイートがありません。'
           render "home/index"
         end
       end
@@ -59,7 +59,7 @@ class EvaluationController < ApplicationController
     if DoingList.where(user_id: current_user.id, tweet_id: tweet_id).count == 0 then
       redirect_to :action => 'new'
     else
-      v = Vote.create(user_id: current_user.id, tweet_id: tweet_id, evaluation: params[:evaluation], version: 3, option_answer: params[:option])
+      v = Vote.create(user_id: current_user.id, tweet_id: tweet_id, evaluation: params[:evaluation], version: 4, option_answer: params[:option])
       session[:v_id] = v.id
 
       session[:behavior].each do |e|
@@ -126,10 +126,11 @@ class EvaluationController < ApplicationController
       current_user.evaluation_count = Vote.where(:user_id => current_user.id, :version => 1).count
       current_user.evaluation_count2 = Vote.where(:user_id => current_user.id, :version => 2).count
       current_user.evaluation_count3 = Vote.where(:user_id => current_user.id, :version => 3).count
-      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2 + current_user.evaluation_count3
+      current_user.evaluation_count4 = Vote.where(:user_id => current_user.id, :version => 4).count
+      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2 + current_user.evaluation_count3 + current_user.evaluation_count4
 
       current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
-      current_user.evaluation_point = current_user.evaluation_count*1 + current_user.evaluation_count2*1 + current_user.evaluation_count3*1
+      current_user.evaluation_point = current_user.evaluation_count*1 + current_user.evaluation_count2*1 + current_user.evaluation_count3*1 + current_user.evaluation_count4*1
       current_user.total_point = current_user.accept_point + current_user.evaluation_point
 
       current_user.save

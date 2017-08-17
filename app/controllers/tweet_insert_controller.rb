@@ -5,6 +5,8 @@ class TweetInsertController < ApplicationController
   end
 
   def new
+    flash.now[:alert] = '現在、収集作業は募集していません。'
+    render "home/index"
     if current_user.tutorial == 0 or current_user.tutorial == 1 then
       flash.now[:alert] = '作業を開始するためにはチュートリアルが必要です。'
       render "home/index"
@@ -12,7 +14,7 @@ class TweetInsertController < ApplicationController
       @tweet = Tweet.new
       current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
       current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2 + current_user.evaluation_count3
+      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2 + current_user.evaluation_count3 + current_user.evaluation_count4
       current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
       current_user.total_point = current_user.accept_point + current_user.evaluation_point
       current_user.save
@@ -88,7 +90,7 @@ class TweetInsertController < ApplicationController
       current_user.tweet_count = Tweet.where(:user_id => current_user.id).count
       current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
       current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2  + current_user.evaluation_count3
+      current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2  + current_user.evaluation_count3  + current_user.evaluation_count4
       current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
       current_user.total_point = current_user.accept_point + current_user.evaluation_point
       current_user.save
@@ -117,7 +119,7 @@ class TweetInsertController < ApplicationController
   def pending
     current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
     current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
-    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2  + current_user.evaluation_count3
+    current_user.total_count = current_user.accept_count + current_user.evaluation_count + current_user.evaluation_count2  + current_user.evaluation_count3  + current_user.evaluation_count4
     current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count
     current_user.accept_point = current_user.accept_count * 5 + current_user.pending_count + current_user.reject_count
     current_user.save

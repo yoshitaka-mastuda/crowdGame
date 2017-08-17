@@ -5,17 +5,10 @@
 <%= link_to 'チュートリアル', tutorial_tutorial_evaluation_path %>
 <br><br>
 
-<div class="row">
-  <div class="col-xs-12">
-    <button type="button" id="appear" class="btn btn-primary btn-lg btn-block">ここを押してツイートを表示</button>
-  </div>
-</div>
-
-<span id="tweet" style="display: none;">
 <blockquote class="twitter-tweet" data-lang="ja">
   <%= link_to '', @tweet.url %>
 </blockquote>
-</span>
+
 <div style="font-size:14pt;">
   <%= form_tag evaluation_create_path do %>
       <%= hidden_field_tag 'tweet[tweet_id]', @tweet.tweet_id %>
@@ -86,8 +79,6 @@
   </ul>
   <li>京都の様子が分ツイートと判断された場合は、ツイートのジャンルを選択肢の中から当てはまるものすべてを選んでください。</li>
   <li>京都の様子が分からないツイートと判断された場合は、その理由を選択肢の中から当てはまるものすべてを選んでください。</li>
-  <li>ツイートはボタンをクリックしている間しか表示されません。</li>
-  <li>画像が大きいとツイート本文が見えない場合があります。クリックしたまま、キーボードの矢印キーで下にスクロールしてください。</li>
 </ul>
 </body>
 
