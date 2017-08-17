@@ -9,9 +9,9 @@ class AdminController < ApplicationController
     @users.each do |u|
       u.accept_count = Tweet.where(:user_id => u.id, :accept => true).count
       u.pending_count = Tweet.where(:user_id => u.id, :pending => true).count
-      u.total_count = u.accept_count + u.evaluation_count + u.evaluation_count2 + u.evaluation_count3
+      u.total_count = u.accept_count + u.evaluation_count + u.evaluation_count2 + u.evaluation_count3 + u.evaluation_count4
       u.accept_point = u.accept_count * 5 + u.pending_count + u.reject_count
-      u.evaluation_point = u.evaluation_count*1 + u.evaluation_count2*1 + u.evaluation_count3*1
+      u.evaluation_point = u.evaluation_count*1 + u.evaluation_count2*1 + u.evaluation_count3*1 + u.evaluation_count4*1
       u.total_point = u.accept_point + u.evaluation_point
       u.save
     end
@@ -47,12 +47,12 @@ class AdminController < ApplicationController
   end
 
   def tweet
-    @manual_accept = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC']).count
-    @manual_reject = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC']).count
-    @manual_pending = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 0 ORDER BY t.votes_count DESC']).count
-    @auto_accept = Tweet.find_by_sql(['SELECT t.* FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC']).count
-    @auto_reject = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC']).count
-    @auto_pending = Tweet.find_by_sql(['SELECT t.* FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 1 ORDER BY t.votes_count DESC']).count
+    @manual_accept = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC']).count
+    @manual_reject = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 0 ORDER BY t.updated_at DESC']).count
+    @manual_pending = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 0 ORDER BY t.votes_count DESC']).count
+    @auto_accept = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t  WHERE t.accept = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC']).count
+    @auto_reject = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t WHERE t.reject = 1 AND t.auto_flag = 1 ORDER BY t.updated_at DESC']).count
+    @auto_pending = Tweet.find_by_sql(['SELECT t.tweet_id FROM tweets t WHERE t.pending = 1 AND t.auto_flag = 1 ORDER BY t.votes_count DESC']).count
 
     @category_weather0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=0']).count
     @category_crowd0 = Tweet.find_by_sql(['SELECT t.tweet_id, c.category_id, count(*) FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id Inner Join vote_categories c ON v.id=c.vote_id WHERE t.accept=1 AND auto_flag=0 GROUP BY t.tweet_id, c.category_id HAVING count(*)>2 AND c.category_id=1']).count
