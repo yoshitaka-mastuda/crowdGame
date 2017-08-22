@@ -106,19 +106,21 @@ class EvaluationController < ApplicationController
       Tweet.where(:tweet_id => tweet_id)[0].update_column(:reject_count, reject)
       Tweet.where(:tweet_id => tweet_id)[0].update_column(:delete_count, delete)
       Tweet.where(:tweet_id => tweet_id)[0].save
-      if Tweet.where(:tweet_id => tweet_id)[0].accept_count > 2 then
-        Tweet.where(:tweet_id => tweet_id)[0].update_column(:accept, 1)
-        Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
-        Tweet.where(:tweet_id => tweet_id)[0].save
-      elsif Tweet.where(:tweet_id => tweet_id)[0].reject_count > 2 then
-        Tweet.where(:tweet_id => tweet_id)[0].update_column(:reject, 1)
-        Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
-        Tweet.where(:tweet_id => tweet_id)[0].save
-      elsif Tweet.where(:tweet_id => tweet_id)[0].delete_count > 1 then
-        Tweet.where(:tweet_id => tweet_id)[0].update_column(:delete_flag, 1)
-        Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
-        Tweet.where(:tweet_id => tweet_id)[0].save
-      end
+
+
+      #if Tweet.where(:tweet_id => tweet_id)[0].accept_count > 2 then
+        #Tweet.where(:tweet_id => tweet_id)[0].update_column(:accept, 1)
+        #Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
+        #Tweet.where(:tweet_id => tweet_id)[0].save
+      #elsif Tweet.where(:tweet_id => tweet_id)[0].reject_count > 2 then
+        #Tweet.where(:tweet_id => tweet_id)[0].update_column(:reject, 1)
+        #Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
+        #Tweet.where(:tweet_id => tweet_id)[0].save
+      #elsif Tweet.where(:tweet_id => tweet_id)[0].delete_count > 1 then
+        #Tweet.where(:tweet_id => tweet_id)[0].update_column(:delete_flag, 1)
+        #Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
+        #Tweet.where(:tweet_id => tweet_id)[0].save
+      #end
 
       current_user.accept_count = Tweet.where(:user_id => current_user.id, :accept => true).count
       current_user.pending_count = Tweet.where(:user_id => current_user.id, :pending => true).count
