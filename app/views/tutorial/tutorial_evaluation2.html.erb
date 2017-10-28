@@ -3,6 +3,7 @@
   <br>
   <br>
   <h3>評価作業チュートリアル（２／５）</h3>
+  <p>ツイートはボタンを押している間しか表示されません。</p>
   <br>
   <p>先ほどと同じようにツイートが京都の様子が分かるツイートかどうか評価します。</p>
   <br>
@@ -12,11 +13,17 @@
   <p>送信ボタンを押すと次のツイートに移ります。</p>
   <br>
   <br>
+  <div class="row">
+    <div class="col-xs-12">
+      <button type="button" id="appear" class="btn btn-primary btn-lg btn-block">ここを押してツイートを表示</button>
+    </div>
+  </div>
 
-
+  <span id="tweet" style="display: none;">
 <blockquote class="twitter-tweet" data-lang="ja">
   <%= link_to '', 'https://twitter.com/Flash447_/status/884949723404054528' %>
 </blockquote>
+</span>
 
   <div style="font-size:14pt;">
     <br><br>

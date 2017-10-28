@@ -5,6 +5,7 @@
   <h3>評価作業チュートリアル（１／５）</h3>
   <br>
   <p>ツイートが京都の様子が分かるツイートかどうか評価します。</p>
+  <p>ツイートはボタンを押している間しか表示されません。</p>
   <br>
   <p>ツイートを読むと「伏見稲荷大社」の「混雑状況」が分かります。</p>
   <p>Q1は「はい」を選びましょう。</p>
@@ -12,11 +13,17 @@
   <p>送信ボタンを押すと次のツイートに移ります。</p>
   <br>
   <br>
+  <div class="row">
+    <div class="col-xs-12">
+      <button type="button" id="appear" class="btn btn-primary btn-lg btn-block">ここを押してツイートを表示</button>
+    </div>
+  </div>
 
-
+  <span id="tweet" style="display: none;">
 <blockquote class="twitter-tweet" data-lang="ja">
   <%= link_to '', 'https://twitter.com/mmk_1225/status/885678856383758337' %>
 </blockquote>
+</span>
 
   <div style="font-size:14pt;">
     <br><br>
