@@ -4,16 +4,21 @@
   <p>Twitterから京都観光に関する最新の情報を収集したいと考えています。</p>
   <p>皆様が収集・評価したツイートは、京都観光を行う利用者に対して有益な情報を提供するための人工知能構築に利用されます。</p>
   <br>
-  <p>現在、収集作業は募集していません。</p>
-  <br><br>
+  <br>
 
   <% if user_signed_in? %>
       <p>初めて作業される方はチュートリアルが必須です↓</p>
+      <p>（評価作業だけの場合は、チュートリアルも評価作業だけで結構です。）</p>
       <%= link_to '評価作業のチュートリアル', tutorial_tutorial_evaluation_path, class: 'btn btn-warning btn-lg' %>&nbsp;&nbsp;
+      <%= link_to '収集作業のチュートリアル', tutorial_tutorial_insert_path, class: 'btn btn-primary btn-lg' %>
+
 
       <br><br>
-      <p>作業を選択してください↓</p>
-      <%= link_to '評価作業を始める', evaluation_new_path, class: 'btn btn-warning btn-lg' %>&nbsp;&nbsp;残り<%=@can%>件
+      <p>作業を選択してください↓<span id="no_insert"> ※ 現在、収集作業は募集していません。</span></p>
+      <p><span style="color:#ff0000;">【募集】評価作業が残り <%= @can %> 件必要です。ご協力お願いします。</span></p>
+      <%= link_to '評価作業を始める', evaluation_new_path, class: 'btn btn-warning btn-lg' %>&nbsp;&nbsp;
+      <%= link_to '収集作業を始める', new_tweet_insert_path, {id: 'insert_task', class: 'btn btn-primary btn-lg'} %>
+
 
       <br><br>
       <p>ポイントの説明や申請方法の確認↓</p>
@@ -33,3 +38,16 @@
   <% end %>
 </div>
 
+<script>
+    jQuery(function () {
+        n = <%= @can %>
+        if (n > 100) {
+            jQuery("#insert_task").hide();
+            jQuery("#no_insert").show();
+        }
+        else{
+            jQuery("#insert_task").show();
+            jQuery("#no_insert").hide();
+        }
+    });
+</script>
