@@ -107,11 +107,11 @@ class EvaluationController < ApplicationController
       Tweet.where(:tweet_id => tweet_id)[0].update_column(:delete_count, delete)
       Tweet.where(:tweet_id => tweet_id)[0].save
 
-      if Tweet.where(:tweet_id => tweet_id)[0].accept_count > 5 then
+      if Tweet.where(:tweet_id => tweet_id)[0].accept_count > 4 then
         Tweet.where(:tweet_id => tweet_id)[0].update_column(:accept, 1)
         Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
         Tweet.where(:tweet_id => tweet_id)[0].save
-      elsif Tweet.where(:tweet_id => tweet_id)[0].reject_count > 5 then
+      elsif Tweet.where(:tweet_id => tweet_id)[0].reject_count > 4 then
         Tweet.where(:tweet_id => tweet_id)[0].update_column(:reject, 1)
         Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
         Tweet.where(:tweet_id => tweet_id)[0].save
