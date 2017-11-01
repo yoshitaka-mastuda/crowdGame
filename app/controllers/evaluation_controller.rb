@@ -59,7 +59,7 @@ class EvaluationController < ApplicationController
     if DoingList.where(user_id: current_user.id, tweet_id: tweet_id).count == 0 then
       redirect_to :action => 'new'
     else
-      v = Vote.create(user_id: current_user.id, tweet_id: tweet_id, evaluation: params[:evaluation], version: 4, option_answer: params[:option])
+      v = Vote.create(user_id: current_user.id, tweet_id: tweet_id, evaluation: params[:evaluation], version: 3, option_answer: params[:option])
       session[:v_id] = v.id
 
       session[:behavior].each do |e|
