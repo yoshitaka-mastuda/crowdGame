@@ -1,4 +1,3 @@
-require 'net/http'
 class EvaluationController < ApplicationController
 
   def index
