@@ -1,3 +1,4 @@
+require 'net/http'
 class EvaluationController < ApplicationController
 
   def index
@@ -111,6 +112,13 @@ class EvaluationController < ApplicationController
         Tweet.where(:tweet_id => tweet_id)[0].update_column(:accept, 1)
         Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
         Tweet.where(:tweet_id => tweet_id)[0].save
+
+
+        uri = URI.parse("http://aquarius.c2sg.asia/api/tweet/#{tweet_id}")
+        para_category_id = 1
+        response = Net::HTTP.post_form(uri, {"category_id"=>para_category_id})
+
+
       elsif Tweet.where(:tweet_id => tweet_id)[0].reject_count > 4 then
         Tweet.where(:tweet_id => tweet_id)[0].update_column(:reject, 1)
         Tweet.where(:tweet_id => tweet_id)[0].update_column(:pending, 0)
