@@ -53,7 +53,7 @@ loop do
     end
   end
 
-  sleep 180
+  sleep 120
 
 
 end
