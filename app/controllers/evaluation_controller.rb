@@ -114,8 +114,21 @@ class EvaluationController < ApplicationController
         Tweet.where(:tweet_id => tweet_id)[0].save
 
 
+
+        c_0 = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_categories v_c ON v.id = v_c.vote_id WHERE t.tweet_id = :t AND v_c.category_id = 0' ,{t:tweet_id}]).count
+        c_1 = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_categories v_c ON v.id = v_c.vote_id WHERE t.tweet_id = :t AND v_c.category_id = 1' ,{t:tweet_id}]).count
+        c_2 = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_categories v_c ON v.id = v_c.vote_id WHERE t.tweet_id = :t AND v_c.category_id = 2' ,{t:tweet_id}]).count
+        c_3 = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_categories v_c ON v.id = v_c.vote_id WHERE t.tweet_id = :t AND v_c.category_id = 3' ,{t:tweet_id}]).count
+        c_4 = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_categories v_c ON v.id = v_c.vote_id WHERE t.tweet_id = :t AND v_c.category_id = 4' ,{t:tweet_id}]).count
+        c_5 = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_categories v_c ON v.id = v_c.vote_id WHERE t.tweet_id = :t AND v_c.category_id = 5' ,{t:tweet_id}]).count
+        c_6 = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_categories v_c ON v.id = v_c.vote_id WHERE t.tweet_id = :t AND v_c.category_id = 6' ,{t:tweet_id}]).count
+        c_7 = Tweet.find_by_sql(['SELECT * FROM tweets t INNER JOIN votes v ON t.tweet_id = v.tweet_id INNER JOIN vote_categories v_c ON v.id = v_c.vote_id WHERE t.tweet_id = :t AND v_c.category_id = 7' ,{t:tweet_id}]).count
+
+        category_count = [c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7]
+
+        para_category_id = category_count.index(category_count.max).to_i
+
         uri = URI.parse("http://aquarius.c2sg.asia/api/tweet/#{tweet_id}")
-        para_category_id = 1
         response = Net::HTTP.post_form(uri, {"category_id"=>para_category_id})
 
 
