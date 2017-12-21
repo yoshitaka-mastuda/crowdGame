@@ -14,7 +14,7 @@
 
 
       <br><br>
-      <p>作業を選択してください↓<!--<span id="no_insert"> ※ 現在、収集作業は募集していません。</span> --></p>
+      <p>作業を選択してください↓<span id="no_insert"> ※ 現在、収集作業は募集していません。</span></p>
       <p><span style="color:#ff0000;">【募集】評価作業が残り <%= @can %> 件必要です。ご協力お願いします。</span></p>
       <%= link_to '評価作業を始める', evaluation_new_path, class: 'btn btn-warning btn-lg' %>&nbsp;&nbsp;
       <%= link_to '収集作業を始める', new_tweet_insert_path, {id: 'insert_task', class: 'btn btn-primary btn-lg'} %>
@@ -41,13 +41,13 @@
 <script>
     jQuery(function () {
         n = <%= @can %>
-        if (n > 1000) {
-            <!--jQuery("#insert_task").hide();-->
-        <!--jQuery("#no_insert").show();-->
+        if (n > 200) {
+            jQuery("#insert_task").hide();
+            jQuery("#no_insert").show();
         }
         else{
-        <!--jQuery("#insert_task").show();-->
-        <!--jQuery("#no_insert").hide();-->
+            jQuery("#insert_task").show();
+            jQuery("#no_insert").hide();
         }
     });
 </script>
